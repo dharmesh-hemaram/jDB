@@ -1,0 +1,23 @@
+{
+    "databaseName": "test",
+    "version": 2,
+    "stores": [
+        {
+            "name": "student",
+            "autoIncrement": true,
+            "keypath": "id",
+            "indexes": [
+                {
+                    "name": "name"
+                },
+                {
+                    "name": "class"
+                },
+                {
+                    "name": "rollno",
+                    "unique": true
+                }
+            ]
+        }
+    ]
+}
