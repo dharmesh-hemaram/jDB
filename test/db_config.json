@@ -1,6 +1,6 @@
 {
     "databaseName": "test",
-    "version": 2,
+    "version": 3,
     "stores": [
         {
             "name": "student",
@@ -8,14 +8,21 @@
             "keypath": "id",
             "indexes": [
                 {
-                    "name": "name"
+                    "name": "name",
+                    "nullable": false,
+                    "type": "string"
                 },
                 {
                     "name": "class"
                 },
                 {
                     "name": "rollno",
+                    "type": "number",
                     "unique": true
+                },
+                {
+                    "name": "subject",
+                    "multiEntry": true
                 }
             ]
         }

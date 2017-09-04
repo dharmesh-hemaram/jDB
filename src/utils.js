@@ -1,4 +1,5 @@
 class Utils {
+    
     static isAvail(value) {
         if (value !== null && value !== undefined) {
             if (typeof value === 'string' && value.length > 0) {
@@ -8,21 +9,6 @@ class Utils {
             }
         }
         return false;
-    }
-
-    static setter(value, key, type_of = "string", mandatory = true) {
-        if (this instanceof Utils.constructor) {
-            throw new Error('Call like Utils.setter.call(this,value,key,type_of,mandatory)');
-        }
-        if (typeof value === type_of) {
-            this[key] = value;
-        } else if (mandatory && !Utils.isAvail(value)) {
-            Utils.error.call(this, key, value);
-        }
-    }
-
-    static error(key, value) {
-        throw new Error(this.constructor.name + ' : ' + key + ' is ' + value);
     }
 
     static loadJSON(url) {
