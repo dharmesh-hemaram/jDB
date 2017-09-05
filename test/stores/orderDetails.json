@@ -1,0 +1,21 @@
+{
+    "name": "orderDetails",
+    "keypath": "orderDetailId",
+    "indexes": [
+        {
+            "name": "orderId",
+            "nullable":false,
+            "type": "number"
+        },
+        {
+            "name": "productId",
+            "nullable":false,
+            "type": "number"
+        },
+        {
+            "name": "quantity",
+            "nullable":false,
+            "type": "number"
+        }
+    ]
+}

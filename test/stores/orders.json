@@ -1,0 +1,26 @@
+{
+    "name": "orders",
+    "keypath": "orderId",
+    "indexes": [
+        {
+            "name": "customerId",
+            "nullable":false,
+            "type": "number"
+        },
+        {
+            "name": "employeeId",
+            "nullable":false,
+            "type": "number"
+        },
+        {
+            "name": "orderDate",
+            "nullable":false,
+            "type": "date"
+        },
+        {
+            "name": "shipperId",
+            "nullable":false,
+            "type": "number"
+        }
+    ]
+}
