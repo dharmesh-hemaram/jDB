@@ -1,0 +1,13 @@
+{
+    "name": "shippers",
+    "keypath": "shipperId",
+    "indexes": [
+        {
+            "name": "shipperName",
+            "nullable": false
+        },
+        {
+            "name": "phone"
+        }
+    ]
+}

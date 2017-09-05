@@ -11,20 +11,23 @@ module.exports = function (config) {
       // Karma will require() these plugins
       'karma-coverage',
       'karma-jasmine',
-      'karma-qunit',
+      //'karma-qunit',
       'karma-chrome-launcher'
     ],
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['qunit'],//, 'jasmine'
+    frameworks: ['jasmine'],//, 'qunit'
 
 
     // list of files / patterns to load in the browser
     files: [
       { pattern: 'src/**/*.js', watched: true },
       { pattern: 'test/**/*.json', watched: true, served: true, included: false },
-      { pattern: 'test/qunit/**/*.js', watched: true }
+      { pattern: 'test/jasmine/**/*config.test.js', watched: true },
+      { pattern: 'test/jasmine/**/*db.test.js', watched: true },
+      { pattern: 'test/jasmine/store/**/*!(delete)test.js', watched: true },
+      { pattern: 'test/jasmine/**/*db.delete.test.js', watched: true }
     ],
 
 

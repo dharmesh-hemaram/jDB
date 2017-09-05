@@ -22,7 +22,7 @@ class Utils {
             xobj.open('GET', url, true); // Replace 'my_data' with the path to your file
             xobj.onreadystatechange = function () {
                 if (xobj.readyState == 4 && xobj.status == "200") {
-                    resolve(xobj.responseText);
+                    resolve(JSON.parse(xobj.responseText));
                 }
             };
             xobj.send(null);

@@ -1,0 +1,24 @@
+{
+    "name": "employees",
+    "keypath": "employeeId",
+    "indexes": [
+        {
+            "name": "lastName",
+            "nullable":false
+        },
+        {
+            "name": "fastName",
+            "nullable":false
+        },
+        {
+            "name": "birthDate",
+            "type": "date"
+        },
+        {
+            "name": "photo"
+        },
+        {
+            "name": "notes"
+        }
+    ]
+}

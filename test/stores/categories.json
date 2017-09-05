@@ -1,0 +1,14 @@
+{
+    "name": "categories",
+    "keypath": "categoryId",
+    "indexes": [
+        {
+            "name": "categoryName",
+            "nullable": false
+        },
+        {
+            "name": "description",
+            "multiEntry": true
+        }
+    ]
+}

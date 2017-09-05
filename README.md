@@ -63,7 +63,7 @@ TEST
 * min
 * max
 * push
-and * addToSet.
+* addToSet.
 
 ### Cursor
 * direction
@@ -87,7 +87,8 @@ and * addToSet.
 * lte
 * in
 * nin
-* elemMatch and * exists.
+* elemMatch 
+* exists.
 
 
 Basic useful feature list:

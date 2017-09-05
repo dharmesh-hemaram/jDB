@@ -1,0 +1,29 @@
+{
+    "name": "products",
+    "keypath": "productId",
+    "indexes": [
+        {
+            "name": "productName",
+            "nullable":false
+        },
+        {
+            "name": "shipperId",
+            "nullable":false,
+            "type": "number"
+        },
+        {
+            "name": "categoryId",
+            "nullable":false,
+            "type": "number"
+        },
+        {
+            "name": "unit",
+            "nullable":false
+        },
+        {
+            "name": "price",
+            "nullable":false,
+            "type": "number"
+        }
+    ]
+}
