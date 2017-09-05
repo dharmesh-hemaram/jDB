@@ -1,9 +1,10 @@
 class XPromise extends Promise {
-    constructor(executor, store) {
+    constructor(executor, databaseName, xStoreEntity) {
         super(executor);
-        if (store) {
-            this.and = new And(this, store);
-            this.or = new Or(this, store);
+        if (Utils.isAvail(databaseName) && Utils.isAvail(xStoreEntity)) {
+            this.and = new And(this, databaseName, xStoreEntity);
+            this.or = new Or(this, databaseName, xStoreEntity);
         }
+
     }
 }

@@ -109,7 +109,7 @@ class StoreDAO extends CommonDAO {
             } catch (e) {
                 reject(e);
             }
-        }, this.xStoreEntity);
+        }, this.databaseName, this.xStoreEntity);
     }
 
     _update(event, value, params, resolve, reject) {

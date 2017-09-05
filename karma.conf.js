@@ -9,20 +9,22 @@ module.exports = function (config) {
 
     plugins: [
       // Karma will require() these plugins
+      'karma-coverage',
       'karma-jasmine',
+      'karma-qunit',
       'karma-chrome-launcher'
     ],
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['qunit'],//, 'jasmine'
 
 
     // list of files / patterns to load in the browser
     files: [
       { pattern: 'src/**/*.js', watched: true },
-      { pattern: 'test/*.json', watched: true, served: true, included: false },
-      { pattern: 'test/*.js', watched: true },
+      { pattern: 'test/**/*.json', watched: true, served: true, included: false },
+      { pattern: 'test/qunit/**/*.js', watched: true }
     ],
 
 
@@ -33,14 +35,13 @@ module.exports = function (config) {
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
+    preprocessors: { 'src/**/*.js': ['coverage'] },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port
@@ -71,6 +72,19 @@ module.exports = function (config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+    // optionally, configure the reporter
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage/'
+    },
+
+    client: {
+      clearContext: false,
+      qunit: {
+        showUI: true,
+        testTimeout: 5000
+      }
+    }
   })
 }

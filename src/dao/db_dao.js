@@ -9,16 +9,13 @@ class DBDAO extends CommonDAO {
     }
 
     delete() {
-        if (!this.isReady) {
-            throw new Error('Database is not ready');
-        }
         return new Promise((resolve, reject) => {
-            this._.close();
-            let _req = indexedDB.deleteDatabase(this._databaseName);
-            _req.onsuccess = (event) => {
+            this.getDB().close();
+            let req = indexedDB.deleteDatabase(this.databaseName);
+            req.onsuccess = (event) => {
                 resolve('Database deleted Successfully');
             };
-            _req.onerror = (event) => {
+            req.onerror = (event) => {
                 reject(event.target.error);
             }
         });
