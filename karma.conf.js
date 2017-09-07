@@ -27,6 +27,7 @@ module.exports = function (config) {
       { pattern: 'test/jasmine/**/*config.test.js', watched: true },
       { pattern: 'test/jasmine/**/*db.test.js', watched: true },
       { pattern: 'test/jasmine/store/**/*!(delete)test.js', watched: true },
+      { pattern: 'test/jasmine/store/**/*delete.test.js', watched: true },
       { pattern: 'test/jasmine/**/*db.delete.test.js', watched: true }
     ],
 

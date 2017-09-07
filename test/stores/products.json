@@ -1,6 +1,7 @@
 {
     "name": "products",
-    "keypath": "productId",
+    "keyPath": "productId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "productName",

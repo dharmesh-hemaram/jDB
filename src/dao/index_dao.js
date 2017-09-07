@@ -1,11 +1,12 @@
 
 class IndexDAO extends CommonDAO {
 
-    constructor(databaseName, xStoreEntity, xIndexEntity, xPromise) {
+    constructor(databaseName, xStoreEntity, xIndexEntity, filter, operator) {
         super(databaseName, xStoreEntity.name);
+        this.filter = filter;
+        this.operator = operator;
         this.xStoreEntity = xStoreEntity;
         this.xIndexEntity = xIndexEntity;
-        this.xPromise = xPromise;
     }
 
     equalDist(value) {
@@ -13,7 +14,23 @@ class IndexDAO extends CommonDAO {
     }
 
     equal(value) {
-        return this._action(ACTION.GET_ALL, ACCESS.READ_ONLY, value);
+        if (!this.operator) {
+            this.filter = [];
+        } else {
+            this.filter[this.filter.length - 1].operator = this.operator;
+        }
+        this.filter.push({ 'equal': value, "entity": this.xIndexEntity.name });
+        return new Operators(this.databaseName, this.xStoreEntity, this.filter);
+    }
+
+
+    get() {
+        return this._action(ACTION.CURSOR, ACCESS.READ_ONLY, undefined);
+    }
+
+    getDist() {
+        this.distinct = true;
+        return this._action(ACTION.CURSOR, ACCESS.READ_ONLY, undefined);
     }
 
     startsWith(value) {
@@ -34,26 +51,33 @@ class IndexDAO extends CommonDAO {
         return new XPromise((resolve, reject) => {
             try {
                 let cursorResult = new Collection();
+                cursorResult.setDistinct(this.distinct);
                 let req = this.objectStore(access).index(this.xIndexEntity.name)[action](params);
                 req.onsuccess = event => {
                     if (action === ACTION.CURSOR) { //Cursor
                         let cursor = event.target.result;
                         if (cursor) {
-                            cursorResult.push(cursor.value);
+                            let value = cursor.value[this.xIndexEntity.name];
+                            cursorResult.push(value);
                             cursor.continue();
                         } else {
+                            this.distinct = undefined;
                             this._onsuccess(cursorResult, resolve);
                         }
                     } else {
+                        this.distinct = undefined;
                         this._onsuccess(event.target.result, resolve);
                     }
                 };
                 req.onerror = event => {
+                    this.distinct = undefined;
                     reject(event.target.error);
                 };
             } catch (e) {
+                this.distinct = undefined;
                 reject(e);
             }
+
         }, this.databaseName, this.xStoreEntity);
     }
 

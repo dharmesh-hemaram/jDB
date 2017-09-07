@@ -1,11 +1,11 @@
 {
     "name": "customers",
-    "keypath": "customerId",
+    "keyPath": "customerId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "customerName",
-            "nullable": false,
-            "type": "string"
+            "nullable": false
         },
         {
             "name": "contactName"

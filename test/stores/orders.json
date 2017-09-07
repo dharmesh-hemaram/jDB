@@ -1,6 +1,7 @@
 {
     "name": "orders",
-    "keypath": "orderId",
+    "keyPath": "orderId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "customerId",

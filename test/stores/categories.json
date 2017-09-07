@@ -1,6 +1,7 @@
 {
     "name": "categories",
-    "keypath": "categoryId",
+    "keyPath": "categoryId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "categoryName",

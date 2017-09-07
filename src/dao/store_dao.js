@@ -1,69 +1,50 @@
 class StoreDAO extends CommonDAO {
 
-    constructor(databaseName, xStoreEntity) {
+    constructor(databaseName, xStoreEntity, filter, operator) {
         super(databaseName, xStoreEntity.name);
         xStoreEntity.indexes.forEach(xIndexEntity => {
             let xIndexDAO;
             if (xIndexEntity.type === "number") {
-                xIndexDAO = new NIndexDAO(databaseName, xStoreEntity, xIndexEntity);
+                xIndexDAO = new NIndexDAO(databaseName, xStoreEntity, xIndexEntity, filter, operator);
             } else {
-                xIndexDAO = new IndexDAO(databaseName, xStoreEntity, xIndexEntity);
+                xIndexDAO = new IndexDAO(databaseName, xStoreEntity, xIndexEntity, filter, operator);
             }
             this[xIndexEntity.name] = xIndexDAO;
         });
+        //this[xStoreEntity.name] = new KeyPathDAO(databaseName, xStoreEntity);
         this.xStoreEntity = xStoreEntity;
     }
 
-    add(value) {
-        if (value instanceof Array) {
+    add(values) {
+        if (values instanceof Array) {
             return new Promise((resolve, reject) => {
                 let bulk = {};
                 bulk.index = 0;
-                bulk.value = value;
+                bulk.values = values;
                 this._bulkAdd(bulk, resolve, reject);
             });
         } else {
-            return this._action(ACTION.ADD, ACCESS.READ_WRITE, value);
+            return this._action(ACTION.ADD, ACCESS.READ_WRITE, values);
         }
     }
 
     _bulkAdd(bulk, resolve, reject) {
-        if (bulk.index < bulk.value.length) {
-            this._action(ACTION.ADD, ACCESS.READ_WRITE, bulk.value[bulk.index]).then(event => {
+        if (bulk.index < bulk.values.length) {
+            this._action(ACTION.ADD, ACCESS.READ_WRITE, bulk.values[bulk.index]).then(event => {
                 bulk.index++;
                 this._bulkAdd(bulk, resolve, reject);
             }).catch(event => {
-                reject(event, bulk.value[bulk.index]);
+                reject(event, bulk.values[bulk.index]);
             })
         } else {
             resolve(bulk.index);
         }
     }
 
-    get(id) {
-        if (id !== undefined) {
-            return this._action(ACTION.GET, ACCESS.READ_ONLY, id);
-        } else {
-            return getAll();
-        }
 
-    }
 
-    getAll() {
-        if (IDBObjectStore.prototype.getAll) {
-            return this._action(ACTION.GET_ALL, ACCESS.READ_ONLY, undefined);
-        } else {
-            console.info('getAll API is not supported by browser');
-            return this._getCursor();
-        }
-    }
-
-    _getCursor() {
-        return this._action(ACTION.CURSOR, ACCESS.READ_ONLY, undefined);
-    }
-
-    update(id, value) {
-        return this._action(ACTION.GET, ACCESS.READ_WRITE, id, value);
+    update(indexes, values) {
+        return this._action(ACTION.GET, ACCESS.READ_WRITE, values, indexes);
     }
 
     clear() {
@@ -79,25 +60,41 @@ class StoreDAO extends CommonDAO {
         return this._action(ACTION.DELETE, ACCESS.READ_WRITE, id);
     }
 
-    _action(action, access, params, value) {
-        return new XPromise((resolve, reject) => {
+    _action(action, access, values, indexes, distinct) {
+        return new Promise((resolve, reject) => {
             try {
-                let cursorResult = [];
-                let req = this.objectStore(access)[action](params);
+
+                if (action === ACTION.ADD) {
+                    this._check(this.xStoreEntity, values, reject);
+                }
+
+                let cursorResult = new Collection();
+                cursorResult.setDistinct(distinct);
+                let req = this.objectStore(access)[action](values);
                 req.onsuccess = event => {
                     if (action === ACTION.CURSOR) { //Cursor
                         let cursor = event.target.result;
                         if (cursor) {
-                            cursorResult.push(cursor.value);
+                            let result = {};
+                            if (indexes.length === 1 && cursor.value[indexes[0]]) {
+                                result = cursor.value[indexes[0]];
+                            } else {
+                                indexes.forEach((index) => {
+                                    if (cursor.value[index]) {
+                                        result[index] = cursor.value[index];
+                                    }
+                                });
+                            }
+                            cursorResult.push(result);;
                             cursor.continue();
                         } else {
                             resolve(cursorResult);
                         }
-                    } else if (value !== undefined) { //Update Case
+                    } else if (indexes !== undefined) { //Update Case
                         if (event.target.result) {
-                            this._update(event, value, params, resolve, reject);
+                            this._update(event, indexes, values, resolve, reject);
                         } else {
-                            reject('No record found with key:' + params);
+                            reject('No record found with key:' + values);
                         }
                     } else {
                         resolve(event.target.result);
@@ -109,13 +106,13 @@ class StoreDAO extends CommonDAO {
             } catch (e) {
                 reject(e);
             }
-        }, this.databaseName, this.xStoreEntity);
+        });
     }
 
-    _update(event, value, params, resolve, reject) {
+    _update(event, indexes, values, resolve, reject) {
         var dbValue = event.target.result;
-        Object.assign(dbValue, value);
-        let req = this._store[ACTION.PUT](dbValue, params);
+        Object.assign(dbValue, indexes);
+        let req = this._store[ACTION.PUT](dbValue, values);
         req.onsuccess = event => {
             resolve(event.target.result);
         };

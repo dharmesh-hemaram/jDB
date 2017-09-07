@@ -1,6 +1,7 @@
 {
     "name": "shippers",
-    "keypath": "shipperId",
+    "keyPath": "shipperId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "shipperName",

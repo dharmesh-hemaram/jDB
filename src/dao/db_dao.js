@@ -2,9 +2,9 @@ class DBDAO extends CommonDAO {
 
     constructor(xDBEntity) {
         super(xDBEntity.databaseName, null);
-        this.xDBEntity = xDBEntity;
+        //this.xDBEntity = xDBEntity;
         xDBEntity.stores.forEach(xStoreEntity => {
-            this[xStoreEntity.name] = new StoreDAO(xDBEntity.databaseName, xStoreEntity);
+            this[xStoreEntity.name] = new StoreDAO(xDBEntity.databaseName, xStoreEntity, []);
         });
     }
 

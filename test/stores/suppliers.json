@@ -1,6 +1,7 @@
 {
     "name": "suppliers",
-    "keypath": "supplierId",
+    "keyPath": "supplierId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "supplierName",

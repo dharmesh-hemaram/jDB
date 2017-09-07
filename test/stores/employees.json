@@ -1,6 +1,7 @@
 {
     "name": "employees",
-    "keypath": "employeeId",
+    "keyPath": "employeeId",
+    "autoIncrement": false,
     "indexes": [
         {
             "name": "lastName",
