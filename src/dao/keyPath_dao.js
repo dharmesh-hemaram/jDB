@@ -1,9 +1,25 @@
+class KeyPathDAO extends IndexDAO {
+    constructor(databaseName, xStoreEntity) {
+        super(databaseName, xStoreEntity);
+    }
 
-class KeyPathDAO extends CommonDAO {
-    constructor(databaseName, xStoreEntity, xIndexEntity, xPromise) {
-        super(databaseName, xStoreEntity.name);
-        this.xStoreEntity = xStoreEntity;
-        this.xIndexEntity = xIndexEntity;
-        this.xPromise = xPromise;
+    _createFilter(type, value) {
+        let filter = {};
+        filter.type = type;
+        filter.values = value;
+        return filter;
+    }
+}
+
+class NKeyPathDAO extends NIndexDAO {
+    constructor(databaseName, xStoreEntity) {
+        super(databaseName, xStoreEntity);
+    }
+
+    _createFilter(type, value) {
+        let filter = {};
+        filter.type = type;
+        filter.values = value;
+        return filter;
     }
 }

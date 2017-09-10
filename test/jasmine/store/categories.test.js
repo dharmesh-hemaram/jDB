@@ -1,4 +1,4 @@
-describe(storeNames[0].name, function () {
+xdescribe(storeNames[0].name, function () {
     let store = storeNames[0];
     it("DB.getInst().testDB[store.name].clear()", function (done) {
         DB.getInst().testDB[store.name].clear()

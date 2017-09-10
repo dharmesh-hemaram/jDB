@@ -2,8 +2,8 @@
     "name": "customers",
     "keyPath": "customerId",
     "autoIncrement": false,
-    "indexes": [
-        {
+    "type": "number",
+    "indexes": [{
             "name": "customerName",
             "nullable": false
         },

@@ -1,10 +1,11 @@
 class StoreEntity extends CommonEntity {
 
-    constructor(name, keyPath, indexes, autoIncrement = true) {
+    constructor(name, keyPath, indexes, autoIncrement = true, type = 'string') {
         super();
         this.autoIncrement = autoIncrement;
         this.setter(name, "name", true);
         this.setter(keyPath, "keyPath", true);
+        this.type = type;
         this.setIndexes = indexes;
     }
 
@@ -23,6 +24,6 @@ class StoreEntity extends CommonEntity {
     }
 
     static fromJSON(json) {
-        return new StoreEntity(json.name, json.keyPath, json.indexes, json.autoIncrement);
+        return new StoreEntity(json.name, json.keyPath, json.indexes, json.autoIncrement, json.type);
     }
 }

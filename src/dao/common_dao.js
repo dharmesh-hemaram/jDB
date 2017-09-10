@@ -1,123 +1,175 @@
-const ACTION = {
-    ADD: 'add',
-    GET: 'get',
-    GET_ALL: 'getAll',
-    CURSOR: 'openCursor',
-    UPDATE: 'put',
-    PUT: 'put',
-    DELETE: 'delete',
-    CLEAR: 'clear',
-    COUNT: 'count'
-};
-
-const ACCESS = {
-    READ_WRITE: 'readwrite',
-    READ_ONLY: 'readonly'
-};
-
 class CommonDAO {
-    constructor(databaseName, storeName) {
+    constructor(databaseName, xStoreEntity, filter) {
         this.databaseName = databaseName;
-        if (storeName) {
-            this.storeName = storeName;
+        this.filter = filter;
+        if (xStoreEntity) {
+            this.xStoreEntity = xStoreEntity;
         }
     }
 
-    getDB() {
-        return DB.getInst().getDB(this.databaseName);
-    }
-
-    objectStore(access) {
-        if (!this.storeName) {
-            throw new Error('Store is not defined');
-        }
-        let trans = this.getDB().transaction([this.storeName], access);
-        trans.oncomplete = function (event) {
-            //console.info(event.target.result);
-        };
-        trans.onerror = function (event) {
-            //console.error(event.target.error);
-        };
-        return trans.objectStore(this.storeName);
-    }
-
-    _check(entity, value, reject) {
-        if (!entity.autoIncrement && !value[entity.keyPath]) {
-            reject(entity.keyPath + ' is not defined in ' + entity.name);
-        }
-        entity.indexes.forEach((index) => {
-            if (index.nullable === false && !value[index.name]) {
-                reject(index.name + ' is not defined in ' + entity.name);
-            }
-        });
-        return true;
-    }
-
-    get(indexes) {
-        if (IDBObjectStore.prototype.getAll && indexes === undefined) {
-            return this._action(ACTION.GET_ALL, ACCESS.READ_ONLY, undefined);
+    get(columns, limit, start) {
+        let dao;
+        if (IDBObjectStore.prototype.getAll && columns === undefined) {
+            dao = new GetAllDAO();
         } else {
-            if (!(indexes instanceof Array)) {
-                indexes = [indexes];
+            if (!(columns instanceof Array)) {
+                columns = [columns];
             }
-            return this._action(ACTION.CURSOR, ACCESS.READ_ONLY, undefined, indexes);
+            dao = new CursorDAO(columns, limit, start);
         }
+        return this._action(dao);
     }
 
-    getDist(index) {
-        if (!(Utils.isAvail(index) && typeof index === "string")) {
-            throw new ReferenceError(index + ' is either not defined or not typeof string');
+    getDist(column, limit, start) {
+        if (!(Utils.isAvail(column) && typeof column === "string")) {
+            throw new ReferenceError(column + ' is either not defined or not typeof string');
         }
-        return this._action(ACTION.CURSOR, ACCESS.READ_ONLY, undefined, [index], true);
+        return this._action(new CursorDAO([column], limit, start), true);
     }
 
-    _action(action, access, values, indexes, distinct) {
+    /**
+     * 
+     *  
+     * @param {Object} values 
+     */
+    update(values) {
+        return this._action(new CursorUpdateDAO(values));
+    }
+
+    delete() {
+        return this._action(new CursorDeleteDAO());
+    }
+
+    _action(dao, distinct) {
+        dao.setFilter(this.filter);
         return new Promise((resolve, reject) => {
             try {
-                if (action === ACTION.ADD) {
-                    this._check(this.xStoreEntity, values, reject);
+                //To check add object before inserting
+                if (dao.check(this.xStoreEntity)) {
+                    this._req(dao, distinct, resolve, reject);
+                } else {
+                    reject(dao.error);
                 }
-                let cursorResult = new Collection();
-                cursorResult.setDistinct(distinct);
-
-                console.log(this.filter);
-
-                let req = this.objectStore(access)[action](values);
-                req.onsuccess = event => {
-                    if (action === ACTION.CURSOR) { //Cursor
-                        let cursor = event.target.result;
-                        if (cursor) {
-                            let result = {};
-                            if (indexes.length === 1 && cursor.value[indexes[0]]) {
-                                result = cursor.value[indexes[0]];
-                            } else {
-                                indexes.forEach((index) => {
-                                    if (cursor.value[index]) {
-                                        result[index] = cursor.value[index];
-                                    }
-                                });
-                            }
-                            cursorResult.push(result);;
-                            cursor.continue();
-                        } else {
-                            resolve(cursorResult);
-                        }
-                    } else if (indexes !== undefined) { //Update Case
-                        if (event.target.result) {
-                            this._update(event, indexes, values, resolve, reject);
-                        } else {
-                            reject('No record found with key:' + values);
-                        }
-                    } else {
-                        resolve(event.target.result);
-                    }
-                };
-                req.onerror = event => {
-                    reject(event.target.error);
-                };
             } catch (e) {
                 reject(e);
             }
         });
+    }
+
+    _req(dao, distinct, resolve, reject) {
+        let objectStore = dao.objectStore(this.databaseName, this.xStoreEntity.name);
+        //Create Cursor Object
+        let cursorResult = new Collection();
+        cursorResult.setDistinct(distinct);
+        //request action
+        let req = objectStore[dao.action](dao.values);
+        req.onsuccess = event => {
+            if (dao.action === ACTION.CURSOR) { //Cursor
+                this._cursor(event, dao, cursorResult, resolve);
+            } else {
+                if (event.target.result instanceof Array) {
+                    cursorResult = cursorResult.concat(event.target.result)
+                } else {
+                    cursorResult = event.target.result;
+                }
+                resolve(cursorResult);
+            }
+        };
+        req.onerror = event => {
+            reject(event.target.error);
+        };
+    }
+
+    _cursor(event, dao, cursorResult, resolve) {
+        let cursor = event.target.result;
+        if (dao.start) {
+            cursor.advance(dao.start);
+            dao.start = undefined;
+        } else {
+            if (cursor && (!dao.limit || cursorResult.length < dao.limit)) {
+                let result = {};
+                if (dao.columns) {
+                    if (dao.columns.length === 1) {
+                        if (cursor.value[dao.columns[0]]) {
+                            result = cursor.value[dao.columns[0]];
+                        }
+
+                    } else {
+                        dao.columns.forEach((column) => {
+                            if (cursor.value[column]) {
+                                result[column] = cursor.value[column];
+                            }
+                        });
+                    }
+                } else {
+                    result = cursor.value;
+                }
+                if (dao.filter) {
+                    let value = cursor.value[dao.filter.index];
+                    if (value) {
+                        switch (dao.filter.type) {
+                            case 'endsWith':
+                                if (!value.endsWith(dao.filter.values)) {
+                                    result = undefined;
+                                }
+                                break;
+                            default:
+                                console.log(dao.filter.type + " condition is not handled");
+                        }
+                    }
+
+                }
+                if (result) {
+                    if (dao.newValues) {
+                        let updateData = Object.assign(cursor.value, dao.newValues);
+                        let req = cursor.update(updateData);
+                        req.onsuccess = event => {
+                            cursorResult.push(event.target.result);
+                        };
+                        req.onerror = event => {
+                            reject(event.target.error);
+                        };
+                    } else if (dao.newAction === ACTION.DELETE) {
+                        let req = cursor.delete();
+                        req.onsuccess = event => {
+                            cursorResult.push(event.target.result);
+                        };
+                        req.onerror = event => {
+                            reject(event.target.error);
+                        };
+                    } else {
+                        cursorResult.push(result);
+                    }
+                }
+                cursor.continue();
+            } else {
+                if (dao.newAction === ACTION.DELETE) {
+                    cursorResult = cursorResult.length;
+                }
+                resolve(cursorResult);
+            }
+        }
+
+
+    }
+
+    _filter(result, resolve) {
+        resolve(result);
+        return;
+        if (Utils.isAvail(this.filter.next)) {
+            if (this.filter.next.operator === 'and') {
+                var filtered = result.filter(values => {
+                    if (values[this.filter.next.entity] === this.filter.next.values.lower) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+            } else {
+                console.log(this.filter.next.operator);
+            }
+        } else {
+            resolve(result);
+        }
     }
 }
