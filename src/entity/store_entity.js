@@ -1,5 +1,12 @@
 class StoreEntity extends CommonEntity {
-
+    /**
+     * 
+     * @param {String} name 
+     * @param {String|Number} keyPath 
+     * @param {Array[IndexEntity]} indexes 
+     * @param {Boolean} autoIncrement 
+     * @param {String} type 
+     */
     constructor(name, keyPath, indexes, autoIncrement = true, type = 'string') {
         super();
         this.autoIncrement = autoIncrement;
@@ -8,7 +15,9 @@ class StoreEntity extends CommonEntity {
         this.type = type;
         this.setIndexes = indexes;
     }
-
+    /**
+     * @param {Array[IndexEntity]} indexes 
+     */
     set setIndexes(indexes) {
         this.indexes = [];
         if (typeof indexes === 'object' && indexes instanceof Array) {
@@ -22,7 +31,10 @@ class StoreEntity extends CommonEntity {
             this.error('indexes', indexes);
         }
     }
-
+    /**
+     * 
+     * @param {Object} json 
+     */
     static fromJSON(json) {
         return new StoreEntity(json.name, json.keyPath, json.indexes, json.autoIncrement, json.type);
     }

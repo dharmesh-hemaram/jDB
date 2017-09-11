@@ -1,5 +1,9 @@
 class StoreDAO extends CommonDAO {
-
+    /**
+     * 
+     * @param {String} databaseName 
+     * @param {StoreEntity} xStoreEntity 
+     */
     constructor(databaseName, xStoreEntity) {
         super(databaseName, xStoreEntity);
         xStoreEntity.indexes.forEach(xIndexEntity => {
@@ -11,15 +15,16 @@ class StoreDAO extends CommonDAO {
             }
             this[xIndexEntity.name] = xIndexDAO;
         });
-
-        let keyPathEntity = new IndexEntity(xStoreEntity.name, true, false, false, xStoreEntity.type);
         if (xStoreEntity.type === "number") {
-            this[xStoreEntity.keyPath] = new NKeyPathDAO(databaseName, xStoreEntity, keyPathEntity);
+            this[xStoreEntity.keyPath] = new NIndexDAO(databaseName, xStoreEntity);
         } else {
-            this[xStoreEntity.keyPath] = new KeyPathDAO(databaseName, xStoreEntity, keyPathEntity);
+            this[xStoreEntity.keyPath] = new IndexDAO(databaseName, xStoreEntity);
         }
     }
-
+    /**
+     * 
+     * @param {Object} values 
+     */
     add(values) {
         if (values instanceof Array) {
             return new Promise((resolve, reject) => {
@@ -32,7 +37,12 @@ class StoreDAO extends CommonDAO {
             return this._action(new AddDAO(values));
         }
     }
-
+    /**
+     * 
+     * @param {Object} bulk 
+     * @param {Function} resolve 
+     * @param {Function} reject 
+     */
     _bulkAdd(bulk, resolve, reject) {
         if (bulk.index < bulk.values.length) {
             this._action(new AddDAO(bulk.values[bulk.index])).then(event => {
@@ -53,18 +63,20 @@ class StoreDAO extends CommonDAO {
     count() {
         return this._action(new CountDAO());
     }
-
+    /**
+     * 
+     * @param {String|Number} key 
+     */
     delete(key) {
         return this._action(new DeleteDAO(key));
     }
-
     /**
      * 
      * @param {String|Number} key 
      * @param {Object} values 
      */
     update(key, values) {
-        values[this.xStoreEntity.keyPath] = key;
+        values[this._xStoreEntity.keyPath] = key;
         return this._action(new UpdateDAO(values));
     }
 }

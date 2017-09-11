@@ -1,12 +1,25 @@
 class CommonDAO {
+    /**
+     * @constructor
+     * @param {String} databaseName 
+     * @param {StoreEntity} xStoreEntity 
+     * @param {Filter} filter 
+     */
     constructor(databaseName, xStoreEntity, filter) {
-        this.databaseName = databaseName;
-        this.filter = filter;
+        this._databaseName = databaseName;
+        if (filter) {
+            this._filter = filter;
+        }
         if (xStoreEntity) {
-            this.xStoreEntity = xStoreEntity;
+            this._xStoreEntity = xStoreEntity;
         }
     }
-
+    /**
+     * 
+     * @param {Array[String]|String} columns 
+     * @param {Number} limit 
+     * @param {Number} start 
+     */
     get(columns, limit, start) {
         let dao;
         if (IDBObjectStore.prototype.getAll && columns === undefined) {
@@ -19,33 +32,42 @@ class CommonDAO {
         }
         return this._action(dao);
     }
-
+    /**
+     * 
+     * @param {Array[String]|String} columns 
+     * @param {Number} limit 
+     * @param {Number} start 
+     */
     getDist(column, limit, start) {
         if (!(Utils.isAvail(column) && typeof column === "string")) {
             throw new ReferenceError(column + ' is either not defined or not typeof string');
         }
         return this._action(new CursorDAO([column], limit, start), true);
     }
-
     /**
      * 
-     *  
      * @param {Object} values 
      */
     update(values) {
         return this._action(new CursorUpdateDAO(values));
     }
-
+    /**
+     * 
+     */
     delete() {
         return this._action(new CursorDeleteDAO());
     }
-
+    /**
+     * 
+     * @param {DAO} dao 
+     * @param {Boolean} distinct 
+     */
     _action(dao, distinct) {
-        dao.setFilter(this.filter);
+        dao.setFilter(this._filter);
         return new Promise((resolve, reject) => {
             try {
                 //To check add object before inserting
-                if (dao.check(this.xStoreEntity)) {
+                if (dao.check(this._xStoreEntity)) {
                     this._req(dao, distinct, resolve, reject);
                 } else {
                     reject(dao.error);
@@ -55,9 +77,15 @@ class CommonDAO {
             }
         });
     }
-
+    /**
+     * 
+     * @param {DAO} dao 
+     * @param {Boolean} distinct 
+     * @param {Function} resolve 
+     * @param {Function} reject 
+     */
     _req(dao, distinct, resolve, reject) {
-        let objectStore = dao.objectStore(this.databaseName, this.xStoreEntity.name);
+        let objectStore = dao.objectStore(this._databaseName, this._xStoreEntity.name);
         //Create Cursor Object
         let cursorResult = new Collection();
         cursorResult.setDistinct(distinct);
@@ -79,7 +107,13 @@ class CommonDAO {
             reject(event.target.error);
         };
     }
-
+    /**
+     * 
+     * @param {Object} event 
+     * @param {DAO} dao 
+     * @param {Array} cursorResult 
+     * @param {Function} resolve 
+     */
     _cursor(event, dao, cursorResult, resolve) {
         let cursor = event.target.result;
         if (dao.start) {
@@ -148,28 +182,6 @@ class CommonDAO {
                 }
                 resolve(cursorResult);
             }
-        }
-
-
-    }
-
-    _filter(result, resolve) {
-        resolve(result);
-        return;
-        if (Utils.isAvail(this.filter.next)) {
-            if (this.filter.next.operator === 'and') {
-                var filtered = result.filter(values => {
-                    if (values[this.filter.next.entity] === this.filter.next.values.lower) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-            } else {
-                console.log(this.filter.next.operator);
-            }
-        } else {
-            resolve(result);
         }
     }
 }

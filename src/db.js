@@ -3,11 +3,18 @@ class DB {
         this.xDB;
         this.DBs = {};
     }
-
+    /**
+     * 
+     * @param {String} name 
+     * @param {IDBDatabase } _ 
+     */
     setDB(name, _) {
         this.DBs[name] = _;
     }
-
+    /**
+     * 
+     * @param {String} name 
+     */
     getDB(name) {
         return this.DBs[name];
     }
@@ -18,7 +25,11 @@ class DB {
         }
         return this.xDB;
     }
-
+    /**
+     * 
+     * @param {DBEntity|Object} xDBEntity 
+     * 
+     */
     static setup(xDBEntity) {
         if (!(xDBEntity instanceof DBEntity)) {
             xDBEntity = DBEntity.fromJSON(xDBEntity);

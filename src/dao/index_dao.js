@@ -1,53 +1,82 @@
 class IndexDAO extends CommonDAO {
-
+    /**
+     * 
+     * @param {String} databaseName 
+     * @param {StoreEntity} xStoreEntity 
+     * @param {IndexEntity} xIndexEntity 
+     */
     constructor(databaseName, xStoreEntity, xIndexEntity) {
         super(databaseName, xStoreEntity);
-        this.xIndexEntity = xIndexEntity;
+        this._xIndexEntity = xIndexEntity;
     }
-
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     equalDist(value) {
         return this._action(ACTION.GET, ACCESS.READ_ONLY, value);
     }
-
-    _createFilter(type, value) {
-        let filter = {};
-        filter.type = type;
-        filter.values = value;
-        filter.index = this.xIndexEntity.name;
-        return filter;
-    }
-
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     equal(value) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('equal', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.EQUAL, value, this._xIndexEntity));
     }
-
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     startsWith(value) {
-        //return this._action(ACTION.CURSOR, ACCESS.READ_ONLY, IDBKeyRange.bound(value, value + '\uffff'), value, 'startsWith');
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('startsWith', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.STARTS_WITH, value, this._xIndexEntity));
     }
-
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     endsWith(value) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('endsWith', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.ENDS_WITH, value, this._xIndexEntity));
     }
 }
 
 class NIndexDAO extends IndexDAO {
-    constructor(databaseName, storeName, xIndexEntity, xPromise) {
-        super(databaseName, storeName, xIndexEntity, xPromise);
+    constructor(databaseName, storeName, xIndexEntity) {
+        super(databaseName, storeName, xIndexEntity);
     }
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     greaterThan(value) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('greaterThan', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.GREATER_THAN, value, this._xIndexEntity));
     }
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     lesserThan(value) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('lesserThan', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.LESSER_THAN, value, this._xIndexEntity));
     }
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     greaterThanOrEqual(value) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('greaterThanOrEqual', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.GREATER_THAN_OR_EQUAL, value, this._xIndexEntity));
     }
+    /**
+     * 
+     * @param {String|Number} value 
+     */
     lesserThanOrEqual(value) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('lesserThanOrEqual', value));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.LESSER_THAN_OR_EQUAL, value, this._xIndexEntity));
     }
+    /**
+     * 
+     * @param {String|Number} start 
+     * @param {String|Number} end 
+     */
     between(start, end) {
-        return new CommonDAO(this.databaseName, this.xStoreEntity, this._createFilter('between', start + "~" + end));
+        return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.BETWEEN, start + FILTER_SPLITTER + end, this._xIndexEntity));
     }
 }

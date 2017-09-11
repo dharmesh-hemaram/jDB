@@ -271,6 +271,23 @@ describe("<< [" + storeNames[1].name + "]", function () {
                         done();
                     });
             });
+            it(">> DB.getInst().testDB.customers.get()", function (done) {
+                DB.getInst().testDB.customers.get('customerId')
+                    .then(result => {
+                        expect(result).toBeDefined();
+                        expect(result.count()).toBeDefined();
+                        expect(result.min('customerId')).toBeDefined();
+                        expect(result.max('customerId')).toBeDefined();
+                        expect(result.avg('customerId')).toBeDefined();
+                        expect(result.min).toThrowError(TypeError);
+                        expect(result.max).toThrowError(TypeError);
+                        expect(result.avg).toThrowError(TypeError);
+                        done();
+                    }).catch((error) => {
+                        fail(error);
+                        done();
+                    });
+            });
         });
     });
 });

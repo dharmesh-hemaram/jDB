@@ -8,18 +8,15 @@ const ACTION = {
     CLEAR: 'clear',
     COUNT: 'count'
 };
-
 const ACCESS = {
     READ_WRITE: 'readwrite',
     READ_ONLY: 'readonly'
 };
-
-
 class DAO {
     /**
      * 
      * @param {ACCESS} access 
-     * @param {Index} index 
+     * @param {String} index 
      * @param {ACTION} action 
      * @param {String|Number} key 
      * @param {Array[Object]|Object} values 
@@ -35,7 +32,9 @@ class DAO {
         this.limit = limit;
         this.start = start;
     }
-
+    /**
+     * Ckeck typeof key before setting to object
+     */
     set _key(key) {
         if (Utils.isAvail(key)) {
             if (typeof key === "string" || typeof key === "number") {
@@ -45,11 +44,18 @@ class DAO {
             }
         }
     }
-
+    /**
+     * 
+     * @param {String} databaseName 
+     */
     getDB(databaseName) {
         return DB.getInst().getDB(databaseName);
     }
-
+    /**
+     * 
+     * @param {String} databaseName 
+     * @param {String} storeName 
+     */
     objectStore(databaseName, storeName) {
         if (!storeName) {
             throw new Error('Store is not defined');
@@ -72,7 +78,10 @@ class DAO {
         }
         return objectStore;
     }
-
+    /**
+     * 
+     * @param {Object} entity 
+     */
     check(entity) {
         if (this.action === ACTION.ADD) {
             if (!entity.autoIncrement && !this.values[entity.keyPath]) {
@@ -90,31 +99,34 @@ class DAO {
         }
         return true;
     }
-
+    /**
+     * 
+     * @param {Filter} filter 
+     */
     setFilter(filter) {
         if (filter && filter.type) {
             this.index = filter.index;
             switch (filter.type) {
-                case 'equal':
-                    this.values = IDBKeyRange.only(filter.values);
+                case FILTER_TYPE.EQUAL:
+                    this.values = IDBKeyRange.only(filter.value);
                     break;
-                case 'startsWith':
-                    this.values = IDBKeyRange.bound(filter.values, filter.values + '\uffff');
+                case FILTER_TYPE.STARTS_WITH:
+                    this.values = IDBKeyRange.bound(filter.value, filter.value + '\uffff');
                     break;
-                case 'greaterThan':
-                    this.values = IDBKeyRange.lowerBound(filter.values, true);
+                case FILTER_TYPE.GREATER_THAN:
+                    this.values = IDBKeyRange.lowerBound(filter.value, true);
                     break;
-                case 'lesserThan':
-                    this.values = IDBKeyRange.upperBound(filter.values, true);
+                case FILTER_TYPE.LESSER_THAN:
+                    this.values = IDBKeyRange.upperBound(filter.value, true);
                     break;
-                case 'greaterThanOrEqual':
-                    this.values = IDBKeyRange.lowerBound(filter.values, false);
+                case FILTER_TYPE.GREATER_THAN_OR_EQUAL:
+                    this.values = IDBKeyRange.lowerBound(filter.value, false);
                     break;
-                case 'lesserThanOrEqual':
-                    this.values = IDBKeyRange.upperBound(filter.values, false);
+                case FILTER_TYPE.LESSER_THAN_OR_EQUAL:
+                    this.values = IDBKeyRange.upperBound(filter.value, false);
                     break;
-                case 'between':
-                    let bounds = filter.values.split('~');
+                case FILTER_TYPE.BETWEEN:
+                    let bounds = filter.value.split('~');
                     this.values = IDBKeyRange.bound(Number(bounds[0]), Number(bounds[1]));
                     break;
                 default:
@@ -125,7 +137,6 @@ class DAO {
         }
     }
 }
-
 class AddDAO extends DAO {
     /**
      * 
@@ -135,20 +146,16 @@ class AddDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.ADD, undefined, values);
     }
 }
-
-
 class ClearDAO extends DAO {
     constructor() {
         super(ACCESS.READ_WRITE, undefined, ACTION.CLEAR);
     }
 }
-
 class CountDAO extends DAO {
     constructor() {
         super(ACCESS.READ_ONLY, undefined, ACTION.COUNT);
     }
 }
-
 class DeleteDAO extends DAO {
     /**
      * 
@@ -158,7 +165,6 @@ class DeleteDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.DELETE, key);
     }
 }
-
 class UpdateDAO extends DAO {
     /**
      * 
@@ -169,7 +175,6 @@ class UpdateDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.PUT, undefined, values);
     }
 }
-
 class GetDAO extends DAO {
     /**
      * 
@@ -179,26 +184,32 @@ class GetDAO extends DAO {
         super(ACCESS.READ_ONLY, undefined, ACTION.GET, key);
     }
 }
-
 class GetAllDAO extends DAO {
     constructor() {
         super(ACCESS.READ_ONLY, undefined, ACTION.GET_ALL);
     }
 }
-
 class CursorDAO extends DAO {
+    /**
+     * 
+     * @param {Array[String]|String} columns 
+     * @param {Number} limit 
+     * @param {Number} start 
+     */
     constructor(columns, limit, start) {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR, undefined, undefined, columns, limit, start);
     }
 }
-
 class CursorUpdateDAO extends DAO {
+    /**
+     * 
+     * @param {Object} values 
+     */
     constructor(values) {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR);
         this.newValues = values;
     }
 }
-
 class CursorDeleteDAO extends DAO {
     constructor() {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR);
