@@ -1,4 +1,6 @@
-class StoreEntity extends CommonEntity {
+import CommonEntity from './common-entity';
+
+export default class StoreEntity extends CommonEntity {
     /**
      * 
      * @param {String} name 

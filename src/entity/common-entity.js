@@ -1,4 +1,4 @@
-class CommonEntity {
+export default class CommonEntity {
     /**
      * 
      * @param {String} value 

@@ -1,4 +1,4 @@
-class DBDAO {
+export default class DBDAO {
     /**
      * 
      * @param {DBEntity} xDBEntity 

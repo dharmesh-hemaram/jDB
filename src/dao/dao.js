@@ -1,4 +1,6 @@
-const ACTION = {
+import Filter from './filter';
+
+export const ACTION = {
     ADD: 'add',
     GET: 'get',
     GET_ALL: 'getAll',
@@ -8,11 +10,11 @@ const ACTION = {
     CLEAR: 'clear',
     COUNT: 'count'
 };
-const ACCESS = {
+export const ACCESS = {
     READ_WRITE: 'readwrite',
     READ_ONLY: 'readonly'
 };
-class DAO {
+export default class DAO {
     /**
      * 
      * @param {ACCESS} access 
@@ -137,7 +139,7 @@ class DAO {
         }
     }
 }
-class AddDAO extends DAO {
+export default class AddDAO extends DAO {
     /**
      * 
      * @param {Array[Object]|Object} values 
@@ -146,17 +148,17 @@ class AddDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.ADD, undefined, values);
     }
 }
-class ClearDAO extends DAO {
+export default class ClearDAO extends DAO {
     constructor() {
         super(ACCESS.READ_WRITE, undefined, ACTION.CLEAR);
     }
 }
-class CountDAO extends DAO {
+export default class CountDAO extends DAO {
     constructor() {
         super(ACCESS.READ_ONLY, undefined, ACTION.COUNT);
     }
 }
-class DeleteDAO extends DAO {
+export default class DeleteDAO extends DAO {
     /**
      * 
      * @param {String|Number} key 
@@ -165,7 +167,7 @@ class DeleteDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.DELETE, key);
     }
 }
-class UpdateDAO extends DAO {
+export default class UpdateDAO extends DAO {
     /**
      * 
      * @param {String|Number} key 
@@ -175,7 +177,7 @@ class UpdateDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.PUT, undefined, values);
     }
 }
-class GetDAO extends DAO {
+export default class GetDAO extends DAO {
     /**
      * 
      * @param {String|Number} key 
@@ -184,12 +186,12 @@ class GetDAO extends DAO {
         super(ACCESS.READ_ONLY, undefined, ACTION.GET, key);
     }
 }
-class GetAllDAO extends DAO {
+export default class GetAllDAO extends DAO {
     constructor() {
         super(ACCESS.READ_ONLY, undefined, ACTION.GET_ALL);
     }
 }
-class CursorDAO extends DAO {
+export default class CursorDAO extends DAO {
     /**
      * 
      * @param {Array[String]|String} columns 
@@ -200,7 +202,7 @@ class CursorDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR, undefined, undefined, columns, limit, start);
     }
 }
-class CursorUpdateDAO extends DAO {
+export default class CursorUpdateDAO extends DAO {
     /**
      * 
      * @param {Object} values 
@@ -210,7 +212,7 @@ class CursorUpdateDAO extends DAO {
         this.newValues = values;
     }
 }
-class CursorDeleteDAO extends DAO {
+export default class CursorDeleteDAO extends DAO {
     constructor() {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR);
         this.newAction = ACTION.DELETE;

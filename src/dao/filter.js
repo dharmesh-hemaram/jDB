@@ -1,4 +1,4 @@
-const FILTER_TYPE = {
+export const FILTER_TYPE = {
     EQUAL: 'equal',
     STARTS_WITH: 'startsWith',
     ENDS_WITH: 'endsWith',
@@ -9,9 +9,9 @@ const FILTER_TYPE = {
     BETWEEN: 'between'
 };
 
-const FILTER_SPLITTER = '~';
+export const FILTER_SPLITTER = '~';
 
-class Filter {
+export default class Filter {
     /**
      * 
      * @param {String} type 

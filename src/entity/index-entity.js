@@ -1,4 +1,6 @@
-class IndexEntity extends CommonEntity {
+import CommonEntity from './common-entity';
+
+export default class IndexEntity extends CommonEntity {
     /**
      * 
      * @param {String} name 

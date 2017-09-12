@@ -1,4 +1,7 @@
-class CommonDAO {
+import Utils from './util/utils';
+import Collection from './util/collection';
+
+export default class CommonDAO {
     /**
      * @constructor
      * @param {String} databaseName 

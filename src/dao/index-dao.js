@@ -1,4 +1,8 @@
-class IndexDAO extends CommonDAO {
+import CommonDAO from './common_dao';
+import Filter from './filter';
+
+
+export default class IndexDAO extends CommonDAO {
     /**
      * 
      * @param {String} databaseName 
@@ -39,7 +43,7 @@ class IndexDAO extends CommonDAO {
     }
 }
 
-class NIndexDAO extends IndexDAO {
+export default class NIndexDAO extends IndexDAO {
     constructor(databaseName, storeName, xIndexEntity) {
         super(databaseName, storeName, xIndexEntity);
     }

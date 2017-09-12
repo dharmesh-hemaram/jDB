@@ -1,4 +1,7 @@
-class StoreDAO extends CommonDAO {
+import CommonDAO from './common_dao';
+import Filter from './filter';
+
+export default class StoreDAO extends CommonDAO {
     /**
      * 
      * @param {String} databaseName 

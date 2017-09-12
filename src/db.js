@@ -1,4 +1,7 @@
-class DB {
+import DBDAO from './dao/db-dao';
+import Config from './config';
+
+export default class DB {
     constructor() {
         this.xDB;
         this.DBs = {};
@@ -35,7 +38,7 @@ class DB {
             xDBEntity = DBEntity.fromJSON(xDBEntity);
         }
         return new Promise((resolve, reject) => {
-            new DBConfig().conifg(xDBEntity).then(_ => {
+            new Config().conifg(xDBEntity).then(_ => {
                 this.getInst().setDB(xDBEntity.databaseName, _);
                 resolve(this.getInst()[xDBEntity.databaseName] = new DBDAO(xDBEntity));
             }).catch(error => reject(error));

@@ -1,4 +1,6 @@
-class DBEntity extends CommonEntity {
+import CommonEntity from './common-entity';
+
+export default class DBEntity extends CommonEntity {
     /**
      * 
      * @param {String} databaseName 
