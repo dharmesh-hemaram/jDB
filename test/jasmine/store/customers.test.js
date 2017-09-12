@@ -14,7 +14,7 @@ describe("<< [" + storeNames[1].name + "]", function () {
     });
     describe('[add]', function () {
         it(">> DB.getInst().testDB[store.name].add(store.data)", function (done) {
-            Utils.loadJSON('base/test/data/' + store.name + '.json').then(data => {
+            Utils.loadJSON('base/assets/data/' + store.name + '.json').then(data => {
                 store.data = data;
                 DB.getInst().testDB[store.name].add(data)
                     .then(count => {

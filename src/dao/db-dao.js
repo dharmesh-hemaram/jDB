@@ -1,3 +1,5 @@
+import StoreDAO from './store-dao';
+
 export default class DBDAO {
     /**
      * 
@@ -12,7 +14,7 @@ export default class DBDAO {
     delete() {
         return new Promise((resolve, reject) => {
             this.getDB().close();
-            let req = indexedDB.deleteDatabase(this._databaseName);
+            let req = DB.getInst().indexedDB.deleteDatabase(this._databaseName);
             req.onsuccess = (event) => {
                 resolve('Database deleted Successfully');
             };

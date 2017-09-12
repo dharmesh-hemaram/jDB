@@ -1,4 +1,5 @@
 import CommonEntity from './common-entity';
+import StoreEntity from './store-entity';
 
 export default class DBEntity extends CommonEntity {
     /**

@@ -1,4 +1,6 @@
 import CommonEntity from './common-entity';
+import IndexEntity from './index-entity';
+
 
 export default class StoreEntity extends CommonEntity {
     /**

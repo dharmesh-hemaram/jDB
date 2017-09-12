@@ -1,4 +1,3 @@
-let count = 0;
 let storeNames = [{
     "name": "categories"
 }, {
@@ -20,10 +19,9 @@ let stores = [];
 describe("<< [DBConfig]", function () {
     it("[load Stores] >>", function (done) {
         storeNames.forEach((store) => {
-            Utils.loadJSON('base/test/stores/' + store.name + '.json').then(data => {
-                count++;
+            Utils.loadJSON('base/assets/stores/' + store.name + '.json').then(data => {
                 stores.push(data);
-                if (count == stores.length) {
+                if (storeNames.length == stores.length) {
                     done();
                 }
             }).catch(error => {
@@ -32,19 +30,20 @@ describe("<< [DBConfig]", function () {
             });
         })
     });
-
-    it("[setup] >>", function (done) {
-        Utils.loadJSON('base/test/db.json').then(database => {
-            database.stores = stores;
-            DB.setup(database).then(_ => {
-                expect(_._databaseName).toBeDefined();
-                expect(_._databaseName).toBe(database.databaseName);
-                expect(_.error).not.toBeDefined();
+    describe('setup', function () {
+        it("[setup] >>", function (done) {
+            Utils.loadJSON('base/assets/db.json').then(database => {
+                database.stores = stores;
+                DB.setup(database).then(_ => {
+                    expect(_._databaseName).toBeDefined();
+                    expect(_._databaseName).toBe(database.databaseName);
+                    expect(_.error).not.toBeDefined();
+                    done();
+                });
+            }).catch(error => {
+                fail(error);
                 done();
             });
-        }).catch(error => {
-            fail(error);
-            done();
         });
     });
 });

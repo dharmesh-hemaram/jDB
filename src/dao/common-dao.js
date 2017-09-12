@@ -1,5 +1,8 @@
-import Utils from './util/utils';
-import Collection from './util/collection';
+import { GetAllDAO, CursorDAO, CursorUpdateDAO, CursorDeleteDAO, ACTION } from './dao';
+
+import Utils from './../util/utils';
+import Collection from './../util/collection';
+
 
 export default class CommonDAO {
     /**
@@ -91,7 +94,7 @@ export default class CommonDAO {
         let objectStore = dao.objectStore(this._databaseName, this._xStoreEntity.name);
         //Create Cursor Object
         let cursorResult = new Collection();
-        cursorResult.setDistinct(distinct);
+        //cursorResult.setDistinct(distinct);
         //request action
         let req = objectStore[dao.action](dao.values);
         req.onsuccess = event => {

@@ -1,4 +1,9 @@
+import Utils from './../util/utils';
+
 export default class Collection extends Array {
+    constructor(){
+        super();
+    }
     /**
      * 
      * @param {Boolean} distinct 
@@ -71,3 +76,5 @@ export default class Collection extends Array {
         return max;
     }
 }
+
+export { Collection };

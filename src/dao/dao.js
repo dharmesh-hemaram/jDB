@@ -1,4 +1,6 @@
-import Filter from './filter';
+import DB from './../db';
+import { Filter, FILTER_TYPE, FILTER_SPLITTER } from './filter';
+import Utils from './../util/utils';
 
 export const ACTION = {
     ADD: 'add',
@@ -14,7 +16,7 @@ export const ACCESS = {
     READ_WRITE: 'readwrite',
     READ_ONLY: 'readonly'
 };
-export default class DAO {
+class DAO {
     /**
      * 
      * @param {ACCESS} access 
@@ -110,26 +112,26 @@ export default class DAO {
             this.index = filter.index;
             switch (filter.type) {
                 case FILTER_TYPE.EQUAL:
-                    this.values = IDBKeyRange.only(filter.value);
+                    this.values = DB.getInst().IDBKeyRange.only(filter.value);
                     break;
                 case FILTER_TYPE.STARTS_WITH:
-                    this.values = IDBKeyRange.bound(filter.value, filter.value + '\uffff');
+                    this.values = DB.getInst().IDBKeyRange.bound(filter.value, filter.value + '\uffff');
                     break;
                 case FILTER_TYPE.GREATER_THAN:
-                    this.values = IDBKeyRange.lowerBound(filter.value, true);
+                    this.values = DB.getInst().IDBKeyRange.lowerBound(filter.value, true);
                     break;
                 case FILTER_TYPE.LESSER_THAN:
-                    this.values = IDBKeyRange.upperBound(filter.value, true);
+                    this.values = DB.getInst().IDBKeyRange.upperBound(filter.value, true);
                     break;
                 case FILTER_TYPE.GREATER_THAN_OR_EQUAL:
-                    this.values = IDBKeyRange.lowerBound(filter.value, false);
+                    this.values = DB.getInst().IDBKeyRange.lowerBound(filter.value, false);
                     break;
                 case FILTER_TYPE.LESSER_THAN_OR_EQUAL:
-                    this.values = IDBKeyRange.upperBound(filter.value, false);
+                    this.values = DB.getInst().IDBKeyRange.upperBound(filter.value, false);
                     break;
                 case FILTER_TYPE.BETWEEN:
                     let bounds = filter.value.split('~');
-                    this.values = IDBKeyRange.bound(Number(bounds[0]), Number(bounds[1]));
+                    this.values = DB.getInst().IDBKeyRange.bound(Number(bounds[0]), Number(bounds[1]));
                     break;
                 default:
                     this.index = undefined;
@@ -139,7 +141,7 @@ export default class DAO {
         }
     }
 }
-export default class AddDAO extends DAO {
+class AddDAO extends DAO {
     /**
      * 
      * @param {Array[Object]|Object} values 
@@ -148,17 +150,17 @@ export default class AddDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.ADD, undefined, values);
     }
 }
-export default class ClearDAO extends DAO {
+class ClearDAO extends DAO {
     constructor() {
         super(ACCESS.READ_WRITE, undefined, ACTION.CLEAR);
     }
 }
-export default class CountDAO extends DAO {
+class CountDAO extends DAO {
     constructor() {
         super(ACCESS.READ_ONLY, undefined, ACTION.COUNT);
     }
 }
-export default class DeleteDAO extends DAO {
+class DeleteDAO extends DAO {
     /**
      * 
      * @param {String|Number} key 
@@ -167,7 +169,7 @@ export default class DeleteDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.DELETE, key);
     }
 }
-export default class UpdateDAO extends DAO {
+class UpdateDAO extends DAO {
     /**
      * 
      * @param {String|Number} key 
@@ -177,7 +179,7 @@ export default class UpdateDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.PUT, undefined, values);
     }
 }
-export default class GetDAO extends DAO {
+class GetDAO extends DAO {
     /**
      * 
      * @param {String|Number} key 
@@ -186,12 +188,12 @@ export default class GetDAO extends DAO {
         super(ACCESS.READ_ONLY, undefined, ACTION.GET, key);
     }
 }
-export default class GetAllDAO extends DAO {
+class GetAllDAO extends DAO {
     constructor() {
         super(ACCESS.READ_ONLY, undefined, ACTION.GET_ALL);
     }
 }
-export default class CursorDAO extends DAO {
+class CursorDAO extends DAO {
     /**
      * 
      * @param {Array[String]|String} columns 
@@ -202,7 +204,7 @@ export default class CursorDAO extends DAO {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR, undefined, undefined, columns, limit, start);
     }
 }
-export default class CursorUpdateDAO extends DAO {
+class CursorUpdateDAO extends DAO {
     /**
      * 
      * @param {Object} values 
@@ -212,9 +214,11 @@ export default class CursorUpdateDAO extends DAO {
         this.newValues = values;
     }
 }
-export default class CursorDeleteDAO extends DAO {
+class CursorDeleteDAO extends DAO {
     constructor() {
         super(ACCESS.READ_WRITE, undefined, ACTION.CURSOR);
         this.newAction = ACTION.DELETE;
     }
 }
+
+export { DAO, GetDAO, GetAllDAO, AddDAO, ClearDAO, CountDAO, UpdateDAO, DeleteDAO, CursorDAO, CursorDeleteDAO, CursorUpdateDAO };

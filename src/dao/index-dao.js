@@ -1,8 +1,8 @@
-import CommonDAO from './common_dao';
-import Filter from './filter';
+import CommonDAO from './common-dao';
+import { Filter, FILTER_TYPE, FILTER_SPLITTER } from './filter';
 
 
-export default class IndexDAO extends CommonDAO {
+class IndexDAO extends CommonDAO {
     /**
      * 
      * @param {String} databaseName 
@@ -43,7 +43,7 @@ export default class IndexDAO extends CommonDAO {
     }
 }
 
-export default class NIndexDAO extends IndexDAO {
+class NIndexDAO extends IndexDAO {
     constructor(databaseName, storeName, xIndexEntity) {
         super(databaseName, storeName, xIndexEntity);
     }
@@ -84,3 +84,5 @@ export default class NIndexDAO extends IndexDAO {
         return new CommonDAO(this._databaseName, this._xStoreEntity, new Filter(FILTER_TYPE.BETWEEN, start + FILTER_SPLITTER + end, this._xIndexEntity));
     }
 }
+
+export { IndexDAO, NIndexDAO };

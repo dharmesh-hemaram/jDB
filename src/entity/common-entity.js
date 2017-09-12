@@ -1,3 +1,5 @@
+import Utils from './../util/utils';
+
 export default class CommonEntity {
     /**
      * 
