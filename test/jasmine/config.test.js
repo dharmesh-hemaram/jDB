@@ -1,36 +1,49 @@
-let count = 0;
-let storeNames = [{ "name": "categories" }, { "name": "customers" }, { "name": "employees" }, { "name": "orderDetails" }, { "name": "orders" }, { "name": "products" }, { "name": "shippers" }, { "name": "suppliers" }];
+let storeNames = [{
+    "name": "categories"
+}, {
+    "name": "customers"
+}, {
+    "name": "employees"
+}, {
+    "name": "orderDetails"
+}, {
+    "name": "orders"
+}, {
+    "name": "products"
+}, {
+    "name": "shippers"
+}, {
+    "name": "suppliers"
+}];
 let stores = [];
-let _;
-describe("DBConfig", function () {
-    beforeEach(function (done) {
+describe("<< [DBConfig]", function () {
+    it("[load Stores] >>", function (done) {
         storeNames.forEach((store) => {
-            Utils.loadJSON('base/test/stores/' + store.name + '.json').then(data => {
-                count++;
+            Utils.loadJSON('base/assets/stores/' + store.name + '.json').then(data => {
                 stores.push(data);
-                if (count == stores.length) {
+                if (storeNames.length == stores.length) {
                     done();
                 }
             }).catch(error => {
-                console.error(error);
+                fail(error);
                 done();
             });
         })
     });
-
-    it("setup", function (done) {
-        Utils.loadJSON('base/test/db.json').then(database => {
-            database.stores = stores;
-            DB.setup(database).then(_ => {
-                _ = _;
-                expect(_.databaseName).toBeDefined();
-                expect(_.databaseName).toBe(database.databaseName);
-                expect(_.error).not.toBeDefined();
+    describe('setup', function () {
+        it("[setup] >>", function (done) {
+            Utils.loadJSON('base/assets/db.json').then(database => {
+                database.stores = stores;
+                DB.setup(database).then(_ => {
+                    expect(_._databaseName).toBeDefined();
+                    expect(_._databaseName).toBe(database.databaseName);
+                    expect(_.error).not.toBeDefined();
+                    done();
+                });
+            }).catch(error => {
+                fail(error);
                 done();
             });
-        }).catch(error => {
-            console.error(error);
-            done();
         });
     });
 });

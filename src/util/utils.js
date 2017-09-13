@@ -1,5 +1,8 @@
-class Utils {
-
+export default class Utils {
+    /**
+     * 
+     * @param {Object} value 
+     */
     static isAvail(value) {
         if (value !== null && value !== undefined) {
             if (typeof value === 'string' && value.length > 0) {
@@ -12,7 +15,10 @@ class Utils {
         }
         return false;
     }
-
+    /**
+     * 
+     * @param {String} url 
+     */
     static loadJSON(url) {
         return new Promise((resolve, reject) => {
             var xobj = new XMLHttpRequest();

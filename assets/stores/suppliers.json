@@ -1,0 +1,29 @@
+{
+    "name": "suppliers",
+    "keyPath": "supplierId",
+    "autoIncrement": false,
+    "indexes": [
+        {
+            "name": "supplierName",
+            "nullable": false
+        },
+        {
+            "name": "contactName"
+        },
+        {
+            "name": "address"
+        },
+        {
+            "name": "city"
+        },
+        {
+            "name": "pinCode"
+        },
+        {
+            "name": "country"
+        },
+        {
+            "name": "phone"
+        }
+    ]
+}

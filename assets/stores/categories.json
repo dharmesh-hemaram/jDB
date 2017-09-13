@@ -1,0 +1,15 @@
+{
+    "name": "categories",
+    "keyPath": "categoryId",
+    "autoIncrement": false,
+    "indexes": [
+        {
+            "name": "categoryName",
+            "nullable": false
+        },
+        {
+            "name": "description",
+            "multiEntry": true
+        }
+    ]
+}

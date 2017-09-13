@@ -1,0 +1,26 @@
+{
+    "name": "customers",
+    "keyPath": "customerId",
+    "autoIncrement": false,
+    "type": "number",
+    "indexes": [{
+            "name": "customerName",
+            "nullable": false
+        },
+        {
+            "name": "contactName"
+        },
+        {
+            "name": "address"
+        },
+        {
+            "name": "city"
+        },
+        {
+            "name": "pinCode"
+        },
+        {
+            "name": "country"
+        }
+    ]
+}
