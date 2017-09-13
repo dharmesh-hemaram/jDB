@@ -1,5 +1,8 @@
 import DBDAO from './dao/db-dao';
 import DBEntity from './entity/db-entity';
+import StoreEntity from './entity/store-entity';
+import IndexEntity from './entity/index-entity';
+
 import Config from './config';
 
 export default class DB {
@@ -56,3 +59,4 @@ export default class DB {
         })
     }
 }
+export { DBEntity, StoreEntity, IndexEntity };

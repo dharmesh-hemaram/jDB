@@ -7,7 +7,7 @@ var packageJson = require('./package.json');
 
 module.exports = merge(common, {
     output: {
-        filename: 'x.[name]-' + packageJson.version + '.min.js'.toLowerCase(),
+        filename: 'j[name].min.js'.toLowerCase(),
         path: path.resolve(__dirname, 'dist'),
         libraryExport: "default",
         library: "[name]",

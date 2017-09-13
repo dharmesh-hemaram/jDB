@@ -6,7 +6,7 @@ module.exports = {
         Utils: './src/util/utils.js'
     },
     output: {
-        filename: 'x.[name]-' + packageJson.version + '.js'.toLowerCase(),
+        filename: 'j[name].js'.toLowerCase(),
         path: path.resolve(__dirname, 'dist'),
         libraryExport: "default",
         library: "[name]",

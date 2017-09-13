@@ -1,0 +1,9 @@
+./assets/*
+./covrage/*
+./node_modules/*
+./src/*
+./test/*
+.gitignore
+.npmignore
+karma.config.js
+webpack.*

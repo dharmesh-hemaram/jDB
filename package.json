@@ -1,8 +1,8 @@
 {
-  "name": "xdb",
+  "name": "jdb",
   "version": "1.0.0",
   "description": "indexeddb API",
-  "main": "index.js",
+  "main": "jDB.min.js",
   "scripts": {
     "test": "concurrently \"webpack -w --config webpack.prod.js\" \"karma start\"",
     "build": "webpack --config webpack.prod.js",
@@ -11,17 +11,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dharmesh-hemaram/db.git"
+    "url": "git+https://github.com/dharmesh-hemaram/jdb.git"
   },
   "keywords": [
-    "db"
+    "jdb",
+    "indexeddb",
+    "indexeddb-api",
+    "indexeddb-components",
+    "indexeddb-wrapper",
+    "indexeddb-tools",
+    "indexeddb-sql",
+    "indexeddb-like",
+    "wrapper"
   ],
   "author": "Dharmesh",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dharmesh-hemaram/db/issues"
+    "url": "https://github.com/dharmesh-hemaram/jdb/issues"
   },
-  "homepage": "https://github.com/dharmesh-hemaram/db#readme",
+  "homepage": "https://github.com/dharmesh-hemaram/jdb#readme",
   "devDependencies": {
     "compression-webpack-plugin": "^1.0.0",
     "concurrently": "^3.5.0",
