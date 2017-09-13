@@ -1,8 +1,9 @@
 import Utils from './../util/utils';
 
-export default class Collection extends Array {
-    constructor(){
-        super();
+
+export default class Collection {
+    constructor() {
+        this.arr = new Array();
     }
     /**
      * 
@@ -16,13 +17,13 @@ export default class Collection extends Array {
      * @param {Object} value 
      */
     push(value) {
-        if (this.distinct && this.indexOf(value) !== -1) {
+        if (this.distinct && this.arr.indexOf(value) !== -1) {
             return;
         }
-        super.push(value)
+        this.arr.push(value)
     }
     count() {
-        return this.length;
+        return this.arr.length;
     }
     /**
      * 
@@ -33,13 +34,13 @@ export default class Collection extends Array {
             throw new TypeError('Please provide column to find min')
         }
         let avg = 0;
-        this.forEach(value => {
+        this.arr.forEach(value => {
             value = typeof value === "object" ? value[column] : value;
             if (Utils.isAvail(value)) {
                 avg += Number(value);
             }
         });
-        return avg / this.length;
+        return avg / this.arr.length;
     }
     /**
      * 
@@ -50,7 +51,7 @@ export default class Collection extends Array {
             throw new TypeError('Please provide column to find min')
         }
         let min;
-        this.forEach(value => {
+        this.arr.forEach(value => {
             value = typeof value === "object" ? value[column] : value;
             if (!min || min > value) {
                 min = value;
@@ -67,7 +68,7 @@ export default class Collection extends Array {
             throw new TypeError('Please provide column to find min')
         }
         let max;
-        this.forEach(value => {
+        this.arr.forEach(value => {
             value = typeof value === "object" ? value[column] : value;
             if (!max || max < value) {
                 max = value;
@@ -75,6 +76,9 @@ export default class Collection extends Array {
         });
         return max;
     }
-}
 
-export { Collection };
+    concat(values) {
+        this.arr = this.arr.concat(values);
+        return this;
+    }
+}

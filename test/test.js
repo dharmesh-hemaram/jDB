@@ -20,6 +20,7 @@ let stores = [];
 storeNames.forEach((store) => {
     Utils.loadJSON('/stores/' + store.name + '.json').then(data => {
         stores.push(data);
+        console.log(stores);
         if (storeNames.length == stores.length) {
             setup();
         }

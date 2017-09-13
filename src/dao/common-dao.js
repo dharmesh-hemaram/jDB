@@ -94,7 +94,7 @@ export default class CommonDAO {
         let objectStore = dao.objectStore(this._databaseName, this._xStoreEntity.name);
         //Create Cursor Object
         let cursorResult = new Collection();
-        //cursorResult.setDistinct(distinct);
+        cursorResult.setDistinct(distinct);
         //request action
         let req = objectStore[dao.action](dao.values);
         req.onsuccess = event => {

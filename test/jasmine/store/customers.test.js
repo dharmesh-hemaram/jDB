@@ -248,7 +248,7 @@ describe("<< [" + storeNames[1].name + "]", function () {
             it(">> DB.getInst().testDB.customers.country.equal('Dharmesh').delete()", function (done) {
                 DB.getInst().testDB.customers.country.equal('Dharmesh').delete()
                     .then(result => {
-                        expect(result).toBeDefined();
+                        expect(result).toBeUndefined();
                         done();
                     }).catch((error) => {
                         console.log(error);
@@ -271,7 +271,7 @@ describe("<< [" + storeNames[1].name + "]", function () {
                         done();
                     });
             });
-            it(">> DB.getInst().testDB.customers.get()", function (done) {
+            it(">> (- DB.getInst().testDB.customers.get())", function (done) {
                 DB.getInst().testDB.customers.get('customerId')
                     .then(result => {
                         expect(result).toBeDefined();
