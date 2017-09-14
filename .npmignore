@@ -1,8 +1,7 @@
-./assets/*
-./covrage/*
-./node_modules/*
-./src/*
-./test/*
+assets/*
+coverage/*
+src/*
+test/*
 .gitignore
 .npmignore
 karma.config.js

@@ -1,8 +1,8 @@
 {
   "name": "@dharmesh-hemaram/jdb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "indexeddb API",
-  "main": "jDB.min.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "concurrently \"webpack -w --config webpack.prod.js\" \"karma start\"",
     "build": "webpack --config webpack.prod.js",
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dharmesh-hemaram/jdb.git"
+    "url": "git+https://github.com/dharmesh-hemaram/jDB.git"
   },
   "keywords": [
-    "jdb",
+    "jDB",
     "indexeddb",
     "indexeddb-api",
     "indexeddb-components",
@@ -27,12 +27,16 @@
   "author": "Dharmesh",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dharmesh-hemaram/jdb/issues"
+    "url": "https://github.com/dharmesh-hemaram/jDB/issues"
   },
-  "homepage": "https://github.com/dharmesh-hemaram/jdb#readme",
+  "homepage": "https://github.com/dharmesh-hemaram/jDB#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
     "compression-webpack-plugin": "^1.0.0",
     "concurrently": "^3.5.0",
+    "html-webpack-plugin": "^2.30.1",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -43,10 +47,7 @@
     "webpack-dev-server": "^2.7.1",
     "webpack-merge": "^4.1.0"
   },
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
-    
+    "@dharmesh-hemaram/jutils": "^1.0.2"
   }
 }

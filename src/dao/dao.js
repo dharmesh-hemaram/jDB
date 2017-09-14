@@ -1,6 +1,6 @@
 import DB from './../db';
 import { Filter, FILTER_TYPE, FILTER_SPLITTER } from './filter';
-import Utils from './../util/utils';
+import { Utils } from '@dharmesh-hemaram/jUtils';
 
 export const ACTION = {
     ADD: 'add',

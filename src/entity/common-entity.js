@@ -1,4 +1,4 @@
-import Utils from './../util/utils';
+import { Utils } from '@dharmesh-hemaram/jUtils';
 
 export default class CommonEntity {
     /**

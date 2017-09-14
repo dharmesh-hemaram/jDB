@@ -1,6 +1,6 @@
 import { GetAllDAO, CursorDAO, CursorUpdateDAO, CursorDeleteDAO, ACTION } from './dao';
 
-import Utils from './../util/utils';
+import { Utils } from '@dharmesh-hemaram/jUtils';
 import Collection from './../util/collection';
 
 
