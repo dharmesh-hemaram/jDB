@@ -2,7 +2,123 @@
 
 xDB is used to communicate with IndexedDB efficiently. xDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
 
-### Quick Start
+### Setup up
+`
+npm install xdb;
+`
+
+### Config
+create database configuration file db_confog.json
+`JSON
+{
+  "databaseName":"testDB",
+  "version":1,
+  "stores":[
+    {
+      "name":"customers",
+      "keyPath":"customerId",
+      "autoIncrement":false,
+      "indexes":[
+        {
+          "name":"customerName",
+          "nullable":false,
+          "type":"string"
+        },
+        {
+          "name":"pincode"
+          "type":"number"
+        },
+        {
+          "name": "city"
+        }
+      ]
+    },{
+      "name":"orders",
+      "keyPath":"orderId",
+      "autoIncrement":false,
+      "indexes":[
+        {
+          "name":"customerId",
+          "nullable":false,
+          "type":"number"
+        },
+        {
+            "name": "orderDate",
+            "nullable":false,
+            "type": "date"
+        }
+      ]
+    }
+  ]
+}
+`
+
+### Setup
+```javascript
+import {Utils,DB} from 'xdb';
+Utils.loadJSON('base/assets/db.json').then(database => {
+    DB.setup(database).then(dbInst => {
+        console.log(dbInst);
+    });
+}).catch(error => {
+  console.error(error);
+});
+```
+
+### Serve
+```javascript
+  DB.getInst().databaseName
+```
+
+
+### Query
+```javascript
+//STORE
+    DB.getInst().testDB.customers.get().then(result => console.log(result));
+    DB.getInst().testDB.customers.get(['customerName', 'city']).then(result => console.log(result));
+    DB.getInst().testDB.customers.getDist('city').then(result => console.log(result));
+    DB.getInst().testDB.customers.getDist('city', 5).then(result => console.log(result)); //limit = 5;
+    DB.getInst().testDB.customers.getDist('city', 5, 5).then(result => console.log(result)); //limit = 5, start = 5;
+    //INDEXES
+    DB.getInst().testDB.customers.country.equal('Mexico').get(['customerName', 'City']);
+    DB.getInst().testDB.customers.country.startsWith('Mex').get(['customerName', 'City']);
+    DB.getInst().testDB.customers.country.endsWith('il').get(['customerName', 'City']);
+
+    DB.getInst().testDB.customers.customerId.greaterThan(1).get();
+    DB.getInst().testDB.customers.customerId.lesserThan(1).get();
+    DB.getInst().testDB.customers.customerId.greaterThanOrEqual(1).get();
+    DB.getInst().testDB.customers.customerId.lesserThanOrEqual(1).get();
+    DB.getInst().testDB.customers.customerId.between(1, 2).get();
+
+
+
+    /**
+     * ADD /UPDATE
+     */
+    // -----STORE
+    DB.getInst().testDB.customers.add(obj);
+    DB.getInst().testDB.customers.update(keyId, obj);
+
+    // -----INDEXES
+    DB.getInst().testDB.customers.customerId.equal(1).update(obj);
+
+    /**
+     * DELETE
+     */
+    // -----STORE
+    DB.getInst().testDB.customers.clear();
+    DB.getInst().testDB.customers.count();
+    // -----INDEXES
+    DB.getInst().testDB.customers.customerName.equal('Alfreds Futterkiste').delete();
+
+    /**
+     * COLLECT
+     */
+    DB.getInst().testDB.customers.getDist('city').then(result => console.log(result.count()));
+    DB.getInst().testDB.customers.getDist('city').then(result => console.log(result.avg('price')));
+    DB.getInst().testDB.customers.getDist('city').then(result => console.log(result.min('price')));
+    DB.getInst().testDB.customers.getDist('city').then(result => console.log(result.max('price')));
+```
 
 
 Basic useful feature list:
@@ -25,11 +141,7 @@ a list!
 
 And here's some code! :+1:
 
-```javascript
-* (function(){
-  * ('div').html('I am a div.');
-});
-```
+
 
 This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
 
@@ -38,9 +150,9 @@ Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/)
 from which
 the inspiration to this
 and some handy implementation hints
-came.
+came. 
 
-### Stuff used to make this:
+### Usefull Stuff:
 
  * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
  * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
