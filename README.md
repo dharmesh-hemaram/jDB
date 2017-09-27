@@ -9,7 +9,7 @@ npm install xdb;
 
 ### Config
 create database configuration file db_confog.json
-`JSON
+```JSON
 {
   "databaseName":"testDB",
   "version":1,
@@ -51,7 +51,7 @@ create database configuration file db_confog.json
     }
   ]
 }
-`
+```
 
 ### Setup
 ```javascript
