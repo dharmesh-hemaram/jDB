@@ -1,3 +1,4 @@
+let dbName = 'jDB';
 let storeNames = [{
     "name": "categories"
 }, {

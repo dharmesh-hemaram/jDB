@@ -1,8 +1,8 @@
 describe("<< [" + storeNames[1].name + "]", function () {
     let store = storeNames[1];
     describe('[clear]', function () {
-        it(">> DB.getInst().testDB[store.name].clear()", function (done) {
-            DB.getInst().testDB[store.name].clear()
+        it(">> DB.getInst()[dbName][store.name].clear()", function (done) {
+            DB.getInst()[dbName][store.name].clear()
                 .then(result => {
                     expect(result).toBeUndefined();
                     done();
@@ -13,10 +13,10 @@ describe("<< [" + storeNames[1].name + "]", function () {
         });
     });
     describe('[add]', function () {
-        it(">> DB.getInst().testDB[store.name].add(store.data)", function (done) {
+        it(">> DB.getInst()[dbName][store.name].add(store.data)", function (done) {
             Utils.loadJSON('base/assets/data/' + store.name + '.json').then(data => {
                 store.data = data;
-                DB.getInst().testDB[store.name].add(data)
+                DB.getInst()[dbName][store.name].add(data)
                     .then(count => {
                         expect(count).toBeDefined();
                         expect(count).toBe(store.data.length);
@@ -32,9 +32,10 @@ describe("<< [" + storeNames[1].name + "]", function () {
         });
     });
     describe('[count]', function () {
-        it(">> DB.getInst().testDB.customers.count()", function (done) {
-            DB.getInst().testDB.customers.count()
+        it(">> DB.getInst()[dbName].customers.count()", function (done) {
+            DB.getInst()[dbName].customers.count()
                 .then(result => {
+                    expect(result).toBe(store.data.length);
                     expect(result).toBeDefined();
                     done();
                 }).catch((error) => {
@@ -44,30 +45,52 @@ describe("<< [" + storeNames[1].name + "]", function () {
         });
     });
     describe('[get]', function () {
-        it(">> DB.getInst().testDB.customers.get()", function (done) {
-            DB.getInst().testDB.customers.get()
+        it(">> DB.getInst()[dbName].customers.get()", function (done) {
+            DB.getInst()[dbName].customers.get()
                 .then(result => {
                     expect(result).toBeDefined();
+                    expect(result.count()).toEqual(store.data.length);
+                    expect(result.arr[0].customerId).toEqual(store.data[0].customerId);
+                    expect(result.arr[1].contactName).toEqual(store.data[1].contactName);
+                    expect(result.arr[2].country).toEqual(store.data[2].country);
+                    expect(result.arr[3].customerName).toEqual(store.data[3].customerName);
+                    expect(result.arr[4].pinCode).toEqual(store.data[4].pinCode);
+                    expect(result.arr[5].address).toEqual(store.data[5].address);
                     done();
                 }).catch((error) => {
                     fail(error);
                     done();
                 });
         });
-        it(">> DB.getInst().testDB.customers.get('customerName')", function (done) {
-            DB.getInst().testDB.customers.get('customerName')
+        it(">> DB.getInst()[dbName].customers.get('customerName')", function (done) {
+            DB.getInst()[dbName].customers.get('customerName')
                 .then(result => {
                     expect(result).toBeDefined();
+                    expect(result.count()).toEqual(store.data.length);
+                    expect(result.arr[0]).toEqual(store.data[0].customerName);
+                    expect(result.arr[1]).toEqual(store.data[1].customerName);
+                    expect(result.arr[2]).toEqual(store.data[2].customerName);
+                    expect(result.arr[3]).toEqual(store.data[3].customerName);
                     done();
                 }).catch((error) => {
                     fail(error);
                     done();
                 });
         });
-        it(">> DB.getInst().testDB.customers.get(['customerName','city'])", function (done) {
-            DB.getInst().testDB.customers.get(['customerName', 'city'])
+        it(">> DB.getInst()[dbName].customers.get(['customerName','city'])", function (done) {
+            DB.getInst()[dbName].customers.get(['customerName', 'city'])
                 .then(result => {
                     expect(result).toBeDefined();
+                    expect(result.count()).toEqual(store.data.length);
+                    expect(result.arr[0].customerName).toEqual(store.data[0].customerName);
+                    expect(result.arr[1].customerName).toEqual(store.data[1].customerName);
+                    expect(result.arr[2].customerName).toEqual(store.data[2].customerName);
+                    expect(result.arr[3].customerName).toEqual(store.data[3].customerName);
+
+                    expect(result.arr[0].city).toEqual(store.data[0].city);
+                    expect(result.arr[1].city).toEqual(store.data[1].city);
+                    expect(result.arr[2].city).toEqual(store.data[2].city);
+                    expect(result.arr[3].city).toEqual(store.data[3].city);
                     done();
                 }).catch((error) => {
                     fail(error);
@@ -78,31 +101,34 @@ describe("<< [" + storeNames[1].name + "]", function () {
 
     });
     describe('[getDist]', function () {
-        it(">> DB.getInst().testDB.customers.getDist('country')", function (done) {
-            DB.getInst().testDB.customers.getDist('country')
+        it(">> DB.getInst()[dbName].customers.getDist('country')", function (done) {
+            DB.getInst()[dbName].customers.getDist('country')
                 .then(result => {
                     expect(result).toBeDefined();
                     expect(result.count()).toBeDefined();
+                    expect(result.count()).toBeLessThan(store.data.length);
                     done();
                 }).catch((error) => {
                     fail(error);
                     done();
                 });
         });
-        it(">> DB.getInst().testDB.customers.getDist('country',5)", function (done) {
-            DB.getInst().testDB.customers.getDist('country', 5)
+        it(">> DB.getInst()[dbName].customers.getDist('country',5)", function (done) {
+            DB.getInst()[dbName].customers.getDist('country', 5)
                 .then(result => {
                     expect(result).toBeDefined();
+                    expect(result.count()).toEqual(5);
                     done();
                 }).catch((error) => {
                     fail(error);
                     done();
                 });
         });
-        it(">> DB.getInst().testDB.customers.getDist('country',5,5)", function (done) {
-            DB.getInst().testDB.customers.getDist('country', 5, 5)
+        it(">> DB.getInst()[dbName].customers.getDist('country',5,5)", function (done) {
+            DB.getInst()[dbName].customers.getDist('country', 5, 5)
                 .then(result => {
                     expect(result).toBeDefined();
+                    expect(result.count()).toEqual(5);
                     done();
                 }).catch((error) => {
                     fail(error);
@@ -111,10 +137,10 @@ describe("<< [" + storeNames[1].name + "]", function () {
         });
     });
     describe('[update]', function () {
-        it(">> DB.getInst().testDB.customers.update(1,{'country':'Dharmesh'})", function (done) {
-            DB.getInst().testDB.customers.update(1, {
-                    'country': 'Dharmesh'
-                })
+        it(">> DB.getInst()[dbName].customers.update(1,{'country':'Dharmesh'})", function (done) {
+            DB.getInst()[dbName].customers.update(1, {
+                'country': 'Dharmesh'
+            })
                 .then(result => {
                     expect(result).toBeDefined();
                     done();
@@ -126,8 +152,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
     })
     describe('[index]', function () {
         describe('[get:equal]', function () {
-            it(">> DB.getInst().testDB.customers.country.equal('Mexico').get()", function (done) {
-                DB.getInst().testDB.customers.country.equal('Mexico').get()
+            it(">> DB.getInst()[dbName].customers.country.equal('Mexico').get()", function (done) {
+                DB.getInst()[dbName].customers.country.equal('Mexico').get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -136,8 +162,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
                         done();
                     });
             });
-            it(">> DB.getInst().testDB.customers.contactName.equal('Berglunds snabbköp').get()", function (done) {
-                DB.getInst().testDB.customers.contactName.equal('Berglunds snabbköp').get()
+            it(">> DB.getInst()[dbName].customers.contactName.equal('Berglunds snabbköp').get()", function (done) {
+                DB.getInst()[dbName].customers.contactName.equal('Berglunds snabbköp').get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -148,8 +174,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:startsWith]', function () {
-            it(">> DB.getInst().testDB.customers.country.startsWith('Mex').get()", function (done) {
-                DB.getInst().testDB.customers.country.startsWith('Mex').get()
+            it(">> DB.getInst()[dbName].customers.country.startsWith('Mex').get()", function (done) {
+                DB.getInst()[dbName].customers.country.startsWith('Mex').get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -160,8 +186,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:endsWith]', function () {
-            it(">> DB.getInst().testDB.customers.country.endsWith('il').get()", function (done) {
-                DB.getInst().testDB.customers.country.endsWith('il').get()
+            it(">> DB.getInst()[dbName].customers.country.endsWith('il').get()", function (done) {
+                DB.getInst()[dbName].customers.country.endsWith('il').get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -172,8 +198,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:greaterThan]', function () {
-            it(">> DB.getInst().testDB.customers.customerId.greaterThan(50).get()", function (done) {
-                DB.getInst().testDB.customers.customerId.greaterThan(50).get()
+            it(">> DB.getInst()[dbName].customers.customerId.greaterThan(50).get()", function (done) {
+                DB.getInst()[dbName].customers.customerId.greaterThan(50).get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -184,8 +210,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:lesserThan]', function () {
-            it(">> DB.getInst().testDB.customers.customerId.lesserThan(5).get()", function (done) {
-                DB.getInst().testDB.customers.customerId.lesserThan(5).get()
+            it(">> DB.getInst()[dbName].customers.customerId.lesserThan(5).get()", function (done) {
+                DB.getInst()[dbName].customers.customerId.lesserThan(5).get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -196,8 +222,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:greaterThanOrEqual]', function () {
-            it(">> DB.getInst().testDB.customers.customerId.greaterThanOrEqual(1).get()", function (done) {
-                DB.getInst().testDB.customers.customerId.greaterThanOrEqual(1).get()
+            it(">> DB.getInst()[dbName].customers.customerId.greaterThanOrEqual(1).get()", function (done) {
+                DB.getInst()[dbName].customers.customerId.greaterThanOrEqual(1).get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -208,8 +234,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:lesserThanOrEqual]', function () {
-            it(">> DB.getInst().testDB.customers.customerId.lesserThanOrEqual(5).get()", function (done) {
-                DB.getInst().testDB.customers.customerId.lesserThanOrEqual(5).get()
+            it(">> DB.getInst()[dbName].customers.customerId.lesserThanOrEqual(5).get()", function (done) {
+                DB.getInst()[dbName].customers.customerId.lesserThanOrEqual(5).get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -220,8 +246,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[get:between]', function () {
-            it(">> DB.getInst().testDB.customers.customerId.between(1,5).get()", function (done) {
-                DB.getInst().testDB.customers.customerId.between(1, 5).get()
+            it(">> DB.getInst()[dbName].customers.customerId.between(1,5).get()", function (done) {
+                DB.getInst()[dbName].customers.customerId.between(1, 5).get()
                     .then(result => {
                         expect(result).toBeDefined();
                         done();
@@ -232,8 +258,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[update]', function () {
-            it(">> DB.getInst().testDB.customers.country.equal('Mexico').update({'country':'Dharmesh'})", function (done) {
-                DB.getInst().testDB.customers.country.equal('Mexico').update({
+            it(">> DB.getInst()[dbName].customers.country.equal('Mexico').update({'country':'Dharmesh'})", function (done) {
+                DB.getInst()[dbName].customers.country.equal('Mexico').update({
                     'country': 'Dharmesh'
                 }).then(result => {
                     expect(result).toBeDefined();
@@ -245,10 +271,10 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         })
         describe('[delete]', function () {
-            it(">> DB.getInst().testDB.customers.country.equal('Dharmesh').delete()", function (done) {
-                DB.getInst().testDB.customers.country.equal('Dharmesh').delete()
+            it(">> DB.getInst()[dbName].customers.country.equal('Dharmesh').delete()", function (done) {
+                DB.getInst()[dbName].customers.country.equal('Dharmesh').delete()
                     .then(result => {
-                        expect(result).toBeUndefined();
+                        expect(result).toBeDefined();
                         done();
                     }).catch((error) => {
                         console.log(error);
@@ -257,8 +283,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
             });
         });
         describe('[getDist:count|min|max|avg]', function () {
-            it(">> DB.getInst().testDB.customers.get()", function (done) {
-                DB.getInst().testDB.customers.get()
+            it(">> DB.getInst()[dbName].customers.get()", function (done) {
+                DB.getInst()[dbName].customers.get()
                     .then(result => {
                         expect(result).toBeDefined();
                         expect(result.count()).toBeDefined();
@@ -271,8 +297,8 @@ describe("<< [" + storeNames[1].name + "]", function () {
                         done();
                     });
             });
-            it(">> (- DB.getInst().testDB.customers.get())", function (done) {
-                DB.getInst().testDB.customers.get('customerId')
+            it(">> (- DB.getInst()[dbName].customers.get())", function (done) {
+                DB.getInst()[dbName].customers.get('customerId')
                     .then(result => {
                         expect(result).toBeDefined();
                         expect(result.count()).toBeDefined();
