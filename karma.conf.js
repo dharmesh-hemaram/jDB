@@ -23,8 +23,7 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       { pattern: 'assets/**/*.json', watched: false, included: false, served: true, nocache: false },
-      { pattern: 'dist/**/*!(xTest).js', watched: true },
-      { pattern: 'test/**/*.json', watched: true, served: true, included: false },
+      { pattern: 'dist/**/*.js', watched: true },
       { pattern: 'test/jasmine/**/*config.test.js', watched: true },
       { pattern: 'test/jasmine/**/*db.test.js', watched: true },
       { pattern: 'test/jasmine/store/**/*!(delete)test.js', watched: true },

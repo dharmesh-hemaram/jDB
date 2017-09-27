@@ -1,0 +1,83 @@
+
+
+TEST
+* Qunit
+* Karma Jasmine
+
+### Constraints
+* nullable
+* unique
+* multivalue
+* foreignKey
+* defualt
+* auto Increment
+
+
+### DB operation
+* config
+* open
+* delete
+* createObjectStore
+* deleteObejctStore
+* export
+
+### Store Opertaion
+* add [pass primaryKey]
+* bulkAdd
+* update
+* delete
+* get [with primary key]
+* getAll [start:end]
+* count
+* clear
+* orderBy
+* groupBy
+
+### Index Operation
+* get
+* getAll
+* like
+* startsWith
+* endsWith
+
+
+
+### Number
+* greaterThan
+* lesserThan
+* greaterThanOrEqual
+* lesserThanOrEqual
+* between
+* in
+
+* sum
+* avg
+* min
+* max
+* push
+* addToSet.
+
+### Cursor
+* direction
+
+### Operation
+* and
+* union [means different table]
+* or
+
+### Collection
+* Reverse
+* and
+* or
+* not
+* nor
+* eq
+* ne
+* gt
+* gte
+* lt
+* lte
+* in
+* nin
+* elemMatch 
+* exists.

@@ -1,6 +1,6 @@
 import { GetAllDAO, CursorDAO, CursorUpdateDAO, CursorDeleteDAO, ACTION } from './dao';
 
-import Utils from './../util/utils';
+import { Utils } from '@dharmesh-hemaram/jUtils';
 import Collection from './../util/collection';
 
 
@@ -28,7 +28,7 @@ export default class CommonDAO {
      */
     get(columns, limit, start) {
         let dao;
-        if (IDBObjectStore.prototype.getAll && columns === undefined) {
+        if (IDBObjectStore.prototype.getAll && columns === undefined && limit === undefined && start === undefined) {
             dao = new GetAllDAO();
         } else {
             if (!(columns instanceof Array)) {
@@ -45,10 +45,18 @@ export default class CommonDAO {
      * @param {Number} start 
      */
     getDist(column, limit, start) {
-        if (!(Utils.isAvail(column) && typeof column === "string")) {
-            throw new ReferenceError(column + ' is either not defined or not typeof string');
+        if (column !== undefined && !(column instanceof Array)) {
+            column = [column];
         }
-        return this._action(new CursorDAO([column], limit, start), true);
+
+        let isDistinct = false;
+        if (Utils.isAvail(column) && typeof column === "string") {
+            isDistinct = true;
+        } else if (column instanceof Array && column.length === 1) {
+            isDistinct = true;
+        }
+        
+        return this._action(new CursorDAO(column, limit, start), isDistinct);
     }
     /**
      * 
@@ -98,6 +106,7 @@ export default class CommonDAO {
         //request action
         let req = objectStore[dao.action](dao.values);
         req.onsuccess = event => {
+
             if (dao.action === ACTION.CURSOR) { //Cursor
                 this._cursor(event, dao, cursorResult, resolve);
             } else {
@@ -126,7 +135,7 @@ export default class CommonDAO {
             cursor.advance(dao.start);
             dao.start = undefined;
         } else {
-            if (cursor && (!dao.limit || cursorResult.length < dao.limit)) {
+            if (cursor && (!dao.limit || cursorResult.arr.length < dao.limit)) {
                 let result = {};
                 if (dao.columns) {
                     if (dao.columns.length === 1) {
@@ -184,7 +193,7 @@ export default class CommonDAO {
                 cursor.continue();
             } else {
                 if (dao.newAction === ACTION.DELETE) {
-                    cursorResult = cursorResult.length;
+                    cursorResult = cursorResult.arr.length;
                 }
                 resolve(cursorResult);
             }

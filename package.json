@@ -1,8 +1,8 @@
 {
-  "name": "xdb",
-  "version": "1.0.0",
+  "name": "@dharmesh-hemaram/jdb",
+  "version": "1.0.1",
   "description": "indexeddb API",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "concurrently \"webpack -w --config webpack.prod.js\" \"karma start\"",
     "build": "webpack --config webpack.prod.js",
@@ -11,55 +11,43 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dharmesh-hemaram/db.git"
+    "url": "git+https://github.com/dharmesh-hemaram/jDB.git"
   },
   "keywords": [
-    "db"
+    "jDB",
+    "indexeddb",
+    "indexeddb-api",
+    "indexeddb-components",
+    "indexeddb-wrapper",
+    "indexeddb-tools",
+    "indexeddb-sql",
+    "indexeddb-like",
+    "wrapper"
   ],
   "author": "Dharmesh",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dharmesh-hemaram/db/issues"
+    "url": "https://github.com/dharmesh-hemaram/jDB/issues"
   },
-  "homepage": "https://github.com/dharmesh-hemaram/db#readme",
+  "homepage": "https://github.com/dharmesh-hemaram/jDB#readme",
   "devDependencies": {
-    "compression-webpack-plugin": "^1.0.0",
-    "concurrently": "^3.5.0",
-    "jasmine-core": "^2.8.0",
-    "karma": "^1.7.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.1",
-    "karma-jasmine": "^1.1.0",
-    "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1",
-    "webpack-merge": "^4.1.0"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {
-    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
-    "babel-preset-es2015": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.16",
     "compression-webpack-plugin": "^1.0.0",
     "concurrently": "^3.5.0",
-    "dexie": "^1.5.1",
     "html-webpack-plugin": "^2.30.1",
     "jasmine-core": "^2.8.0",
-    "jquery": "^3.2.1",
     "karma": "^1.7.1",
-    "karma-coverage": "^1.1.1",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
-    "karma-qunit": "^1.2.1",
-    "qunitjs": "^2.4.0",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.5.6",
     "webpack-dev-server": "^2.7.1",
     "webpack-merge": "^4.1.0"
+  },
+  "dependencies": {
+    "@dharmesh-hemaram/jutils": "^1.0.2"
   }
 }
