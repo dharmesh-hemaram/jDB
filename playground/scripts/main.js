@@ -91,14 +91,52 @@ function run() {
 }
 
 output = values => {
+    raw(values);
+    json(values);
+    table(values);
+};
 
+raw = values => {
     if (typeof values === "number") {
-        alert("You have made changes to the database. Rows affected: " + values);
+        $("#raw-output").html("You have made changes to the database. Rows affected: " + values);
         return;
+    } else {
+        $("#raw-output").html(JSON.stringify(values.arr));
     }
+}
 
-    let thead = document.querySelector('#output thead');
-    let tbody = document.querySelector('#output tbody');
+json = values => {
+    if (typeof values === "number") {
+        $("#json-output").html(values);
+        return;
+    } else {
+        $("#json-output").html(pritifyJson(values.arr));
+    }
+}
+
+function pritifyJson(json) {
+    json = JSON.stringify(json, undefined, 2);
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+table = values => {
+    let thead = document.querySelector('#table-output thead');
+    let tbody = document.querySelector('#table-output tbody');
     thead.innerHTML = "", tbody.innerHTML = "";
     //Thead
     stores.forEach(store => {
@@ -149,4 +187,4 @@ output = values => {
         }
         tbody.appendChild(tr);
     });
-};
+}

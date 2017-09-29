@@ -1,1 +1,0 @@
-[DB.getInst()[dbName].customers.get().then(result => console.log(result))](https://dharmesh-hemaram.github.io/jDB/index.html?query=customers.get())

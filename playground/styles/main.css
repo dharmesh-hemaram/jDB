@@ -72,6 +72,9 @@ body {
     padding-bottom: 1.5rem;
   }
 
-  textarea{
-      
-  }
+  pre {padding: 5px; margin: 5px; }
+  .string { color: #4e9a06; }
+  .number { color: #ad7fa8; }
+  .boolean { color: #c4a000; }
+  .null { color: #babdb6;font-style: italic; }
+  .key { color: #204a87; }
