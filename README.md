@@ -1,17 +1,17 @@
-# xDB
+# jDB
 
-xDB is used to communicate with IndexedDB efficiently. xDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
+jDB is used to communicate with IndexedDB efficiently. jDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
 
 ### Installation
-# In Browser
+### In Browser
 ```html
 <script src="jdb.js"></script>
 ```
-# npm
+### npm
 ```
 npm i --save xdb;
 ```
-# In Node
+### In Node
 ```javascript
 // Load the full build.
 var DB = require('jDB');
