@@ -19,7 +19,7 @@ let stores = [];
 let error = error => { console.error(error) };
 function onload() {
     storeNames.forEach((store) => {
-        Utils.loadJSON('./../assets/stores/' + store.name + '.json').then(data => {
+        Utils.loadJSON('./assets/stores/' + store.name + '.json').then(data => {
             stores.push(data);
             if (storeNames.length == stores.length) {
                 setup();
