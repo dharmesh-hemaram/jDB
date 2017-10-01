@@ -18,6 +18,7 @@ function checkParam() {
     $("#query").val(decodeURIComponent(query));
     run();
   }
+
 }
 
 function setup() {
@@ -181,3 +182,4 @@ table = values => {
     tbody.appendChild(tr);
   });
 }
+
