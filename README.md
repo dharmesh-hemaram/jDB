@@ -26,8 +26,8 @@ define(['@dharmesh-hemaram/jdb'], function (jDB) {
 });
 
 ```
-##Getting started
-###Configuration
+## Getting started
+### Configuration
 create database configuration file db_confog.json
 ```JSON
 {
@@ -52,6 +52,8 @@ create database configuration file db_confog.json
 ### Setup
 ```javascript
 import {DB,Utils} from '@dharmesh-hemaram/jdb';
+
+DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
 ```
 ### Serve
 ```javascript
@@ -69,4 +71,4 @@ import {DB,Utils} from '@dharmesh-hemaram/jdb';
 
 ## Licensing
 
-"The code in this project is licensed under Apache 2.0 license."
+[The code in this project is licensed under Apache 2.0 license.](LICENSE)
