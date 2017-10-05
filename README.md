@@ -61,7 +61,7 @@ DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
 ```
 
 ### Query
-[Click Me](query.md)
+[Click Me](wiki/query)
 
 ### Usefull Stuff:
 
