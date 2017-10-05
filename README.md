@@ -61,7 +61,7 @@ DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
 ```
 
 ### Query
-[Click Me](wiki/query)
+[Click Me](https://github.com/dharmesh-hemaram/jDB/wiki/query)
 
 ### Usefull Stuff:
 
