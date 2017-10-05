@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     entry: {
         index: './src/index.js',
-        jDB: './src/index.js'
+        jdb: './src/index.js'
     },
     output: {
         filename: '[name].js'.toLowerCase(),
