@@ -1,7 +1,8 @@
 # jDB
 
-jDB is used to communicate with IndexedDB efficiently. jDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
+>jDB is used to communicate with IndexedDB efficiently. jDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
 
+## Installing
 ### In Browser
 ```html
 <script src="jdb.js"></script>
@@ -12,10 +13,21 @@ npm i --save xdb;
 ```
 ### In Node
 ```javascript
-// Load the full build.
-var DB = require('jDB');
+// ES2015
+import {DB,Utils} from '@dharmesh-hemaram/jdb';
+
+//require JS
+let DB =  require('@dharmesh-hemaram/jdb').DB;
+let Utils = require('@dharmesh-hemaram/jdb').Utils;
+
+//AMD
+define(['@dharmesh-hemaram/jdb'], function (jDB) {
+  let DB = jDB.DB, Utils = jDB.Utils;
+});
+
 ```
-### Config
+## Getting started
+### Configuration
 create database configuration file db_confog.json
 ```JSON
 {
@@ -31,21 +43,18 @@ create database configuration file db_confog.json
           "name":"customerName",
           "nullable":false,
           "type":"string"
-        },...
+        },{}
       ]
-    },{...}
+    },{}
   ]
 }
 ```
-
 ### Setup
 ```javascript
-import {Utils,DB} from 'xdb';
-Utils.loadJSON('base/assets/db.json').then(database => {
-    DB.setup(database).then(dbInst => console.log(dbInst));
-}).catch(error => console.error(error));
-```
+import {DB,Utils} from '@dharmesh-hemaram/jdb';
 
+DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
+```
 ### Serve
 ```javascript
   DB.getInst().databaseName.storeName.get().then(result).catch(error);
@@ -59,3 +68,7 @@ Utils.loadJSON('base/assets/db.json').then(database => {
  * [E-Mail](dharmesh.hemaram@gmail.com)
  * [Wiki](https://github.com/dharmesh-hemaram/jDB/wiki/)
  * [Test](https://dharmesh-hemaram.github.io/jDB/test.html)
+
+## Licensing
+
+[The code in this project is licensed under Apache 2.0 license.](LICENSE)

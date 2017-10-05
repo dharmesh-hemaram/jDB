@@ -14,6 +14,6 @@ module.exports = merge(common, {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.BannerPlugin('jDB v' + packageJson.version + ' \n author:' + packageJson.author + ' \n license:' + packageJson.license + " \n homepage:" + packageJson.homepage)
+    new webpack.BannerPlugin(' jDB v' + packageJson.version + ' \n Author:' + packageJson.author + ' \n License:' + packageJson.license + " \n Homepage:" + packageJson.homepage)
   ]
 });
