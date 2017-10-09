@@ -68,6 +68,9 @@ DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
  * [E-Mail](dharmesh.hemaram@gmail.com)
  * [Wiki](https://github.com/dharmesh-hemaram/jDB/wiki/)
  * [Test](https://dharmesh-hemaram.github.io/jDB/test.html)
+ 
+ If this project help you reduce time to develop, you can give me a cup of coffee :)
+ [![PayPal](https://www.paypalobjects.com/webstatic/paypalme/images/pp_logo_small.png)](https://paypal.me/DharmeshH/25?_ga=1.267642062.1305492970.1507529951)
 
 ## Licensing
 
