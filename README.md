@@ -60,8 +60,7 @@ DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
   DB.getInst().databaseName.storeName.get().then(result).catch(error);
 ```
 
-### Query
-[Click Me](https://github.com/dharmesh-hemaram/jDB/wiki/Query)
+### [Query](https://github.com/dharmesh-hemaram/jDB/wiki/Query)
 
 ### Usefull Stuff:
 
