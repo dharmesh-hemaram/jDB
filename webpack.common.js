@@ -1,22 +1,16 @@
 const path = require('path');
-
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
-    entry: {
-        index: './src/index.js',
-        jdb: './src/index.js'
-    },
-    output: {
-        filename: '[name].js'.toLowerCase(),
-        path: path.resolve(__dirname, 'dist'),
-        libraryExport: "default",
-        libraryTarget: "umd",
-    }, module: {
-        rules: [{
-            test: /\.js$/,
-            loader: "babel-loader",
-            options: {
-                presets: ["env"]
-            }
-        }]
-    }
+  entry: {
+    jdb: './src/index.js'
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist/*'])
+  ],
+  output: {
+    filename: '[name].js'.toLowerCase(),
+    path: path.resolve(__dirname, 'dist'),
+    libraryExport: "default",
+    libraryTarget: "umd",
+  }
 }

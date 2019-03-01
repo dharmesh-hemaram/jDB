@@ -18,7 +18,7 @@ let storeNames = [{
 }];
 let stores = [];
 storeNames.forEach((store) => {
-    Utils.loadJSON('/stores/' + store.name + '.json').then(data => {
+    fetch('/stores/' + store.name + '.json').then(response => response.json()).then(data => {
         stores.push(data);
         console.log(stores);
         if (storeNames.length == stores.length) {
@@ -30,7 +30,7 @@ storeNames.forEach((store) => {
 })
 
 function setup() {
-    Utils.loadJSON('/db.json').then(database => {
+    fetch('/db.json').then(database => {
         database.stores = stores;
         DB.setup(database).then(_ => {
             query();

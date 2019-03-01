@@ -1,4 +1,4 @@
-describe("<< [" + storeNames[1].name + "]", function () {
+xdescribe("<< [" + storeNames[1].name + "]", function () {
     let store = storeNames[1];
     describe('[clear]', function () {
         it(">> DB.getInst()[dbName][store.name].clear()", function (done) {
@@ -14,7 +14,7 @@ describe("<< [" + storeNames[1].name + "]", function () {
     });
     describe('[add]', function () {
         it(">> DB.getInst()[dbName][store.name].add(store.data)", function (done) {
-            Utils.loadJSON('base/assets/data/' + store.name + '.json').then(data => {
+            fetch('base/assets/data/' + store.name + '.json').then(response => response.json()).then(data => {
                 store.data = data;
                 DB.getInst()[dbName][store.name].add(data)
                     .then(count => {

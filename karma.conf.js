@@ -1,6 +1,5 @@
 // Karma configuration
 // Generated on Wed Aug 30 2017 16:22:35 GMT+0530 (India Standard Time)
-
 module.exports = function (config) {
   config.set({
 
@@ -9,10 +8,7 @@ module.exports = function (config) {
 
     plugins: [
       // Karma will require() these plugins
-      'karma-coverage',
-      'karma-jasmine',
-      //'karma-qunit',
-      'karma-chrome-launcher'
+      'karma-jasmine'
     ],
 
     // frameworks to use
@@ -23,12 +19,9 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       { pattern: 'assets/**/*.json', watched: false, included: false, served: true, nocache: false },
-      { pattern: 'dist/**/*.js', watched: true },
-      { pattern: 'test/jasmine/**/*config.test.js', watched: true },
-      { pattern: 'test/jasmine/**/*db.test.js', watched: true },
-      { pattern: 'test/jasmine/store/**/*!(delete)test.js', watched: true },
-      { pattern: 'test/jasmine/store/**/*delete.test.js', watched: true },
-      { pattern: 'test/jasmine/**/*db.delete.test.js', watched: true }
+      { pattern: 'dist/**/*.js', watched: false },
+      { pattern: 'test/jasmine/config.test.js', watched: true },
+      { pattern: 'test/jasmine/store/products.test.js', watched: true }
     ],
 
 
@@ -39,13 +32,13 @@ module.exports = function (config) {
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: { 'src/**/*.js': ['coverage'] },
+    preprocessors: {},
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
 
 
     // web server port
@@ -67,7 +60,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [],
 
 
     // Continuous Integration mode

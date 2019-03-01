@@ -20,7 +20,7 @@ let stores = [];
 describe("<< [DBConfig]", function () {
     it("[load Stores] >>", function (done) {
         storeNames.forEach((store) => {
-            Utils.loadJSON('base/assets/stores/' + store.name + '.json').then(data => {
+            fetch('base/assets/stores/' + store.name + '.json').then(response => response.json()).then(data => {
                 stores.push(data);
                 if (storeNames.length == stores.length) {
                     done();
@@ -33,11 +33,9 @@ describe("<< [DBConfig]", function () {
     });
     describe('setup', function () {
         it("[setup] >>", function (done) {
-            Utils.loadJSON('base/assets/db.json').then(database => {
+            fetch('base/assets/db.json').then(response => response.json()).then(database => {
                 database.stores = stores;
                 DB.setup(database).then(_ => {
-                    expect(_._databaseName).toBeDefined();
-                    expect(_._databaseName).toBe(database.databaseName);
                     expect(_.error).not.toBeDefined();
                     done();
                 });

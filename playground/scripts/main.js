@@ -3,7 +3,7 @@ let stores = [];
 let error = error => { console.error(error) };
 function onload() {
   storeNames.forEach((store) => {
-    Utils.loadJSON('./assets/stores/' + store.name + '.json').then(data => {
+    fetch('./assets/stores/' + store.name + '.json').then(r => r.json()).then(data => {
       stores.push(data);
       if (storeNames.length == stores.length) {
         setup();
@@ -22,7 +22,7 @@ function checkParam() {
 }
 
 function setup() {
-  Utils.loadJSON('./assets/db.json').then(database => {
+  fetch('./assets/db.json').then(r => r.json()).then(database => {
     database.stores = stores;
     DB.setup(database).then(_ => {
       legend();
@@ -52,7 +52,7 @@ function legend() {
 }
 
 function load(store) {
-  Utils.loadJSON('./assets/data/' + store.name + '.json').then(data => {
+  fetch('./assets/data/' + store.name + '.json').then(r => r.json()).then(data => {
     DB.getInst().jDB[store.name].add(data)
       .then(count => {
         let badge = document.createElement('span');

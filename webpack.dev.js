@@ -5,11 +5,21 @@ const packageJson = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
-  devtool: 'inline-source-map',
+  mode: 'development',
+  optimization: {
+    usedExports: true
+  },
   devServer: {
-    contentBase: [path.join(__dirname, "dist"), path.join(__dirname, "assets")],
-    compress: true,
-    port: 9000
+    contentBase: ['./dist', './assets']
+  },
+  devtool: 'inline-source-map',
+  module: {
+    rules: [{
+      test: /\.(json)$/,
+      use: [
+        'file-loader'
+      ]
+    }]
   },
   plugins: [
     new HtmlWebpackPlugin({

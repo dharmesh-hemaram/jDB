@@ -51,7 +51,7 @@ create database configuration file db_confog.json
 ```
 ### Setup
 ```javascript
-import {DB,Utils} from '@dharmesh-hemaram/jdb';
+import {DB} from '@dharmesh-hemaram/jdb';
 
 DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
 ```
