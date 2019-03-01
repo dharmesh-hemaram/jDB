@@ -31,9 +31,11 @@
   },
   "homepage": "https://dharmesh-hemaram.github.io/jDB/",
   "devDependencies": {
+    "bootstrap": "^4.3.1",
     "clean-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^3.2.0",
     "jasmine": "^3.3.1",
+    "jquery": "^3.3.1",
     "karma": "^4.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-webpack": "^3.0.5",

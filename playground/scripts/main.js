@@ -36,17 +36,13 @@ function legend() {
   let stores = DB.getInst().getDB('jDB').objectStoreNames;
   for (let i = 0; i < stores.length; i++) {
     let store = stores[i];
-    let a = document.createElement('a');
-    a.classList.add('nav-link');
-    a.innerHTML = store;
-    a.setAttribute("href", "#");
-    a.addEventListener('click', () => {
-      document.querySelector('#query').value = store + ".get()";
-    });
     let li = document.createElement('li');
     li.setAttribute('id', store);
-    li.classList.add('nav-item');
-    li.appendChild(a);
+    li.classList = 'list-group-item d-flex justify-content-between align-items-center';
+    li.innerHTML = store;
+    li.addEventListener('click', () => {
+      document.querySelector('#query').value = store + ".get()";
+    });
     document.querySelector('#navbar').appendChild(li);
   }
 }
@@ -60,7 +56,7 @@ function load(store) {
         badge.classList.add('badge-secondary');
         badge.classList.add('badge-pill');
         badge.innerHTML = count;
-        document.querySelector("#" + store.name + " a").appendChild(badge);
+        document.querySelector("#" + store.name).appendChild(badge);
       }).catch(error);
   }).catch(error);
 
@@ -95,7 +91,7 @@ raw = values => {
     $("#raw-output").html("You have made changes to the database. Rows affected: " + values);
     return;
   } else {
-    $("#raw-output").html(JSON.stringify(values.arr));
+    $("#raw-output").html(JSON.stringify(values));
   }
 }
 
@@ -104,7 +100,7 @@ json = values => {
     $("#json-output").html(values);
     return;
   } else {
-    $("#json-output").html(pritifyJson(values.arr));
+    $("#json-output").html(pritifyJson(values));
   }
 }
 
