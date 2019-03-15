@@ -76,6 +76,11 @@ jDB.getInst().testDB.customers.get()
 
 ### Query
 | Name | Return | Description |
+| ---- | ------ | ----------- |
+| jDB.getInst() | Object | return jDB instance it contains your database object |
+| jDB.getInst().databaseName | Object | return database object with all stores |
+| jDB.getInst().databaseName.storeName | Object | return store object with all indexes |
+
 
 
 ### Usefull Stuff:
