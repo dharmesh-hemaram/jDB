@@ -1,28 +1,32 @@
 # jDB
+[![NPM version][npm-image]][npm-url]
 
->jDB is used to communicate with IndexedDB efficiently. jDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
+## About
+jDB is javascript library / wrapper used to communicate with IndexedDB efficiently. jDB have set of predefined function which helps developers ease in writing object oriented code for storing, manipulating and retrieving data in indexedDB.
 
-## Installing
+## Versions
+**Changes in 1.0.2:**
+- Updated code to remove unwanted methods and variables.
+## Install
 ### In Browser
 ```html
-<script src="jdb.js"></script>
+<script src="https://dharmesh-hemaram.github.io/jDB/dist/jdb.min.js" type="text/javascript"></script>
 ```
 ### npm
 ```
-npm i --save xdb;
+npm i --save jdb;
 ```
 ### In Node
 ```javascript
 // ES2015
-import {DB,Utils} from '@dharmesh-hemaram/jdb';
+import {DB} from '@dharmesh-hemaram/jdb';
 
 //require JS
-let DB =  require('@dharmesh-hemaram/jdb').DB;
-let Utils = require('@dharmesh-hemaram/jdb').Utils;
+let DB =  require('@dharmesh-hemaram/jdb').jDB;
 
 //AMD
-define(['@dharmesh-hemaram/jdb'], function (jDB) {
-  let DB = jDB.DB, Utils = jDB.Utils;
+define(['@dharmesh-hemaram/jdb'], function (package) {
+  let jDB = package.jDB;
 });
 
 ```
