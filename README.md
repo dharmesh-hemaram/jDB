@@ -32,38 +32,51 @@ define(['@dharmesh-hemaram/jdb'], function (module) {
 ```
 ## Getting started
 ### Configuration
-create database configuration file db_confog.json
+create database configuration file db_config.json
 ```JSON
 {
   "databaseName":"testDB",
   "version":1,
-  "stores":[
-    {
+  "stores":[{
       "name":"customers",
       "keyPath":"customerId",
       "autoIncrement":false,
-      "indexes":[
-        {
+      "indexes":[{
           "name":"customerName",
           "nullable":false,
           "type":"string"
-        },{}
-      ]
-    },{}
-  ]
+        },...]
+    },...]
 }
 ```
 ### Setup
 ```javascript
 import {jDB} from '@dharmesh-hemaram/jdb';
-jDB.setup(databaseJSON).then(dbInst => console.log(dbInst));
+fetch('db_config.json')
+.then(result => result.json())
+.then(response => {
+    jDB.setup(response)
+    .then(dbInst => console.log(dbInst))
+    .catch(console.error);    
+}).catch(console.error);
 ```
 ### Serve
 ```javascript
-jDB.getInst().databaseName.storeName.get().then(result).catch(error);
+jDB.getInst().testDB.customers.get()
+.then(console.log)
+.catch(console.error);
 ```
 
-### [Query](https://github.com/dharmesh-hemaram/jDB/wiki/Query)
+### Data Type Supported
+* String
+* Number
+* Date
+* Boolean
+* Object
+
+### Query
+| Name | Return | Description |
+
 
 ### Usefull Stuff:
 
