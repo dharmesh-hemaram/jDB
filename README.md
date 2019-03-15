@@ -74,13 +74,41 @@ jDB.getInst().testDB.customers.get()
 * Boolean
 * Object
 
-### Query
+### Main Query
 | Name | Return | Description |
 | ---- | ------ | ----------- |
-| jDB.getInst() | Object | return jDB instance it contains your database object |
-| jDB.getInst().databaseName | Object | return database object with all stores |
-| jDB.getInst().databaseName.storeName | Object | return store object with all indexes |
+| jDB.getInst() | Object | return jDB instance it contains your all databases |
+| jDB.getInst().```databaseName``` | Object | return database object with all stores |
+| jDB.getInst().```databaseName```.```storeName``` | Object | return store object with all indexes |
 
+###### Note:  
+- In Indexed DB store are like table they have rows and columns(index)
+- Below all query are store level query and they operate on entire row or table. 
+- Index are generic term for column
+
+### STORE - jDB.getInst().```databaseName```.```storeName```
+### GET
+| Name | Return | Description |
+| ---- | ------ | ----------- |
+| get() | Promise | To get all the values in store |
+| get(```index```) | Promise | To get all the values of that ```index```|
+| get([```index```,```index```]) | Promise | To get all the values of listed ```index``` |
+| getDist(```index```) | Promise | To get all distinct values of given ```index``` |
+| getDist(```index```,```limit```) | Promise | To get all distinct values of given ```index``` for particular ```limit``` |
+| getDist(```index```,```limit```,```start```) | Promise | To get all distinct values of given ```index``` for particular ```limit``` starts from ```start``` |
+### ADD / UPDATE
+| Name | Return | Description |
+| ---- | ------ | ----------- |
+|add(```obj```)|Promise| To add particular ```obj``` to Store |
+|update(```keyId```,```obj```)|Promise| To update particular ```obj``` to Store at particular ```keyId``` |
+### DELETE
+| Name | Return | Description |
+| ---- | ------ | ----------- |
+|clear()| void | To clear the store|
+### MATH
+| Name | Return | Description |
+| ---- | ------ | ----------- |
+|count()| int | returns count of rows in store|
 
 
 ### Usefull Stuff:
