@@ -8,25 +8,25 @@ jDB is javascript library / wrapper used to communicate with IndexedDB efficient
 **Changes in 1.0.2:**
 - Updated code to remove unwanted methods and variables.
 ## Install
-### In Browser
+#### In Browser
 ```html
 <script src="https://dharmesh-hemaram.github.io/jDB/dist/jdb.min.js" type="text/javascript"></script>
 ```
-### npm
+#### npm
 ```
 npm i --save jdb;
 ```
-### In Node
+#### In Node
 ```javascript
 // ES2015
-import {DB} from '@dharmesh-hemaram/jdb';
+import {jDB} from '@dharmesh-hemaram/jdb';
 
 //require JS
-let DB =  require('@dharmesh-hemaram/jdb').jDB;
+let jDB =  require('@dharmesh-hemaram/jdb').jDB;
 
 //AMD
-define(['@dharmesh-hemaram/jdb'], function (package) {
-  let jDB = package.jDB;
+define(['@dharmesh-hemaram/jdb'], function (module) {
+  let jDB = module.jDB;
 });
 
 ```
@@ -55,13 +55,12 @@ create database configuration file db_confog.json
 ```
 ### Setup
 ```javascript
-import {DB} from '@dharmesh-hemaram/jdb';
-
-DB.setup(databaseJSON).then(dbInst => console.log(dbInst));
+import {jDB} from '@dharmesh-hemaram/jdb';
+jDB.setup(databaseJSON).then(dbInst => console.log(dbInst));
 ```
 ### Serve
 ```javascript
-  DB.getInst().databaseName.storeName.get().then(result).catch(error);
+jDB.getInst().databaseName.storeName.get().then(result).catch(error);
 ```
 
 ### [Query](https://github.com/dharmesh-hemaram/jDB/wiki/Query)
