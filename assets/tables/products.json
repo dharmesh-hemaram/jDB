@@ -2,7 +2,7 @@
     "name": "products",
     "keyPath": "productId",
     "autoIncrement": false,
-    "indexes": [
+    "columns": [
         {
             "name": "productName",
             "nullable":false

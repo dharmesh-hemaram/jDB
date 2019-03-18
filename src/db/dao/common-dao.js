@@ -9,13 +9,14 @@ export default class CommonDAO {
    * @param {StoreEntity} xStoreEntity 
    * @param {Filter} xFilter 
    */
-  constructor(databaseName, xStoreEntity, xFilter) {
+  constructor(_, databaseName, xStoreEntity, xFilter) {
+    this._ = _;
     this[Symbol.for('databaseName')] = databaseName;
     if (xFilter) {
       this[Symbol.for('filter')] = xFilter;
     }
     if (xStoreEntity) {
-      this[Symbol.for('StoreEntity')] = xStoreEntity;
+      this[Symbol.for('TableEntity')] = xStoreEntity;
     }
   }
   /**
@@ -25,14 +26,18 @@ export default class CommonDAO {
    * @param {Number} start 
    */
   get(columns, limit, start) {
+    let xColumnEntity = this[Symbol.for('ColumnEntity')];
     let dao;
-    if (IDBObjectStore.prototype.getAll && columns === undefined && limit === undefined && start === undefined) {
-      dao = new GetAllDAO();
+    if (!xColumnEntity && IDBObjectStore.prototype.getAll && columns === undefined && limit === undefined && start === undefined) {
+      dao = new GetAllDAO(this._);
     } else {
+      if (xColumnEntity !== undefined) {
+        columns = [xColumnEntity.name];
+      }
       if (!(columns instanceof Array)) {
         columns = [columns];
       }
-      dao = new CursorDAO(columns, limit, start);
+      dao = new CursorDAO(this._, columns, limit, start);
     }
     return this[Symbol.for('action')](dao);
   }
@@ -54,20 +59,20 @@ export default class CommonDAO {
       isDistinct = true;
     }
 
-    return this[Symbol.for('action')](new CursorDAO(column, limit, start), isDistinct);
+    return this[Symbol.for('action')](new CursorDAO(this._, column, limit, start), isDistinct);
   }
   /**
    * 
    * @param {Object} values 
    */
   update(values) {
-    return this[Symbol.for('action')](new CursorUpdateDAO(values));
+    return this[Symbol.for('action')](new CursorUpdateDAO(this._, values));
   }
   /**
    * 
    */
   delete() {
-    return this[Symbol.for('action')](new CursorDeleteDAO());
+    return this[Symbol.for('action')](new CursorDeleteDAO(this._));
   }
   /**
    * 
@@ -79,7 +84,7 @@ export default class CommonDAO {
     return new Promise((resolve, reject) => {
       try {
         //To check add object before inserting
-        if (dao.check(this[Symbol.for('StoreEntity')])) {
+        if (dao.check(this[Symbol.for('TableEntity')])) {
           this[Symbol.for('req')](dao, distinct, resolve, reject);
         } else {
           reject(dao.error);
@@ -97,16 +102,14 @@ export default class CommonDAO {
    * @param {Function} reject 
    */
   [Symbol.for('req')](dao, distinct, resolve, reject) {
-    let objectStore = dao.objectStore(this[Symbol.for('databaseName')], this[Symbol.for('StoreEntity')].name);
+    let objectStore = dao.objectStore(this[Symbol.for('TableEntity')].name);
     //Create Cursor Object
-    let cursorResult = new Collection();
-    cursorResult.setDistinct(distinct);
+    let cursorResult = new Array();
     //request action
     let req = objectStore[dao.action](dao.values);
     req.onsuccess = event => {
-
       if (dao.action === ACTION.CURSOR) { //Cursor
-        this[Symbol.for('cursor')](event, dao, cursorResult, resolve);
+        this[Symbol.for('cursor')](event, dao, cursorResult, resolve, distinct);
       } else {
         if (event.target.result instanceof Array) {
           cursorResult = cursorResult.concat(event.target.result)
@@ -127,13 +130,13 @@ export default class CommonDAO {
    * @param {Array} cursorResult 
    * @param {Function} resolve 
    */
-  [Symbol.for('cursor')](event, dao, cursorResult, resolve) {
+  [Symbol.for('cursor')](event, dao, cursorResult, resolve, distinct) {
     let cursor = event.target.result;
     if (dao.start) {
       cursor.advance(dao.start);
       dao.start = undefined;
     } else {
-      if (cursor && (!dao.limit || cursorResult.arr.length < dao.limit)) {
+      if (cursor && (!dao.limit || cursorResult.length < dao.limit)) {
         let result = {};
         if (dao.columns) {
           if (dao.columns.length === 1) {
@@ -164,9 +167,8 @@ export default class CommonDAO {
                 console.log(dao.filter.type + " condition is not handled");
             }
           }
-
         }
-        
+
         if (result) {
           if (dao.newValues) {
             let updateData = Object.assign(cursor.value, dao.newValues);
@@ -194,7 +196,7 @@ export default class CommonDAO {
         if (dao.newAction === ACTION.DELETE) {
           cursorResult = cursorResult.arr.length;
         }
-        resolve(cursorResult);
+        resolve(distinct ? [... new Set(cursorResult)] : cursorResult);
       }
     }
   }

@@ -17,11 +17,11 @@ TEST
 * config
 * open
 * delete
-* createObjectStore
-* deleteObejctStore
+* createObjecttable
+* deleteObejcttable
 * export
 
-### Store Opertaion
+### table Opertaion
 * add [pass primaryKey]
 * bulkAdd
 * update

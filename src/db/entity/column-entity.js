@@ -1,6 +1,6 @@
 import CommonEntity from './common-entity';
 
-export default class IndexEntity extends CommonEntity {
+export default class ColumnEntity extends CommonEntity {
   /**
    * 
    * @param {String} name 
@@ -22,6 +22,6 @@ export default class IndexEntity extends CommonEntity {
    * @param {Object} json 
    */
   static fromJSON(json) {
-    return new IndexEntity(json.name, json.unique, json.multiEntry, json.nullable, json.type);
+    return new ColumnEntity(json.name, json.unique, json.multiEntry, json.nullable, json.type);
   }
 }

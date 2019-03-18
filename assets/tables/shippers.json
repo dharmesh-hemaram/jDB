@@ -2,7 +2,7 @@
     "name": "shippers",
     "keyPath": "shipperId",
     "autoIncrement": false,
-    "indexes": [
+    "columns": [
         {
             "name": "shipperName",
             "nullable": false

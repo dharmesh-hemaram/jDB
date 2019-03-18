@@ -2,7 +2,7 @@
     "name": "categories",
     "keyPath": "categoryId",
     "autoIncrement": false,
-    "indexes": [
+    "columns": [
         {
             "name": "categoryName",
             "nullable": false

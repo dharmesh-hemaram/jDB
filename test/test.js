@@ -1,5 +1,5 @@
 
-let storeNames = [{
+let tableNames = [{
     "name": "categories"
 }, {
     "name": "customers"
@@ -16,12 +16,12 @@ let storeNames = [{
 }, {
     "name": "suppliers"
 }];
-let stores = [];
-storeNames.forEach((store) => {
-    fetch('/stores/' + store.name + '.json').then(response => response.json()).then(data => {
-        stores.push(data);
-        console.log(stores);
-        if (storeNames.length == stores.length) {
+let tables = [];
+tableNames.forEach((table) => {
+    fetch('/tables/' + table.name + '.json').then(response => response.json()).then(data => {
+        tables.push(data);
+        console.log(tables);
+        if (tableNames.length == tables.length) {
             setup();
         }
     }).catch(error => {
@@ -31,7 +31,7 @@ storeNames.forEach((store) => {
 
 function setup() {
     fetch('/db.json').then(database => {
-        database.stores = stores;
+        database.tables = tables;
         DB.setup(database).then(_ => {
             query();
         });
@@ -41,7 +41,7 @@ function setup() {
 }
 
 function query() {
-    //STORE
+    //table
     DB.getInst()[dbName].customers.get().then(result => console.log(result));
     DB.getInst()[dbName].customers.get(['customerName', 'city']).then(result => console.log(result));
     DB.getInst()[dbName].customers.getDist('city').then(result => console.log(result));
@@ -63,7 +63,7 @@ function query() {
     /**
      * ADD /UPDATE
      */
-    // -----STORE
+    // -----table
     DB.getInst()[dbName].customers.add(obj);
     DB.getInst()[dbName].customers.update(keyId, obj);
 
@@ -73,7 +73,7 @@ function query() {
     /**
      * DELETE
      */
-    // -----STORE
+    // -----table
     DB.getInst()[dbName].customers.clear();
     DB.getInst()[dbName].customers.count();
     // -----INDEXES

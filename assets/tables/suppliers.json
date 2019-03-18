@@ -1,10 +1,10 @@
 {
-    "name": "customers",
-    "keyPath": "customerId",
+    "name": "suppliers",
+    "keyPath": "supplierId",
     "autoIncrement": false,
-    "type": "number",
-    "indexes": [{
-            "name": "customerName",
+    "columns": [
+        {
+            "name": "supplierName",
             "nullable": false
         },
         {
@@ -21,6 +21,9 @@
         },
         {
             "name": "country"
+        },
+        {
+            "name": "phone"
         }
     ]
 }

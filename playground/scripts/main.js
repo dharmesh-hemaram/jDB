@@ -1,14 +1,16 @@
-const storeNames = [{ "name": "categories" }, { "name": "customers" }, { "name": "employees" }, { "name": "orderDetails" }, { "name": "orders" }, { "name": "products" }, { "name": "shippers" }, { "name": "suppliers" }];
-let stores = [];
-let error = error => { console.error(error) };
+const xTableNames = [{ "name": "categories" }, { "name": "customers" }, { "name": "employees" }, { "name": "orderDetails" }, { "name": "orders" }, { "name": "products" }, { "name": "shippers" }, { "name": "suppliers" }];
+let xTables = [];
+let xDatabase;
 function onload() {
-  storeNames.forEach((store) => {
-    fetch('./assets/stores/' + store.name + '.json').then(r => r.json()).then(data => {
-      stores.push(data);
-      if (storeNames.length == stores.length) {
-        setup();
-      }
-    }).catch(error);
+  xTableNames.forEach((table) => {
+    fetch('./tables/' + table.name + '.json')
+      .then(r => r.json())
+      .then(data => {
+        xTables.push(data);
+        if (xTableNames.length == xTables.length) {
+          setup();
+        }
+      }).catch(console.error);
   })
 }
 
@@ -18,56 +20,59 @@ function checkParam() {
     $("#query").val(decodeURIComponent(query));
     run();
   }
-
 }
 
 function setup() {
-  fetch('./assets/db.json').then(r => r.json()).then(database => {
-    database.stores = stores;
+  fetch('./db.json').then(r => r.json()).then(database => {
+    database.tables = xTables;
+    xDatabase = database
     DB.setup(database).then(_ => {
+      $("#inst-text").html(`DB.getInst().${xDatabase.databaseName}.`);
       legend();
       checkParam();
       clear();
     });
-  }).catch(error);
+  }).catch(console.error);
 }
 
 function legend() {
-  let stores = DB.getInst().getDB('jDB').objectStoreNames;
-  for (let i = 0; i < stores.length; i++) {
-    let store = stores[i];
+  let tables = DB.getInst()[xDatabase.databaseName]._.objectStoreNames;
+  for (let i = 0; i < tables.length; i++) {
+    let table = tables[i];
     let li = document.createElement('li');
-    li.setAttribute('id', store);
+    li.setAttribute('id', table);
     li.classList = 'list-group-item d-flex justify-content-between align-items-center';
-    li.innerHTML = store;
+    li.innerHTML = table;
     li.addEventListener('click', () => {
-      document.querySelector('#query').value = store + ".get()";
+      document.querySelector('#query').value = table + ".get()";
     });
     document.querySelector('#navbar').appendChild(li);
   }
 }
 
-function load(store) {
-  fetch('./assets/data/' + store.name + '.json').then(r => r.json()).then(data => {
-    DB.getInst().jDB[store.name].add(data)
-      .then(count => {
-        let badge = document.createElement('span');
-        badge.classList.add('badge');
-        badge.classList.add('badge-secondary');
-        badge.classList.add('badge-pill');
-        badge.innerHTML = count;
-        document.querySelector("#" + store.name).appendChild(badge);
-      }).catch(error);
-  }).catch(error);
+function load(table) {
+  fetch('./data/' + table.name + '.json')
+    .then(r => r.json())
+    .then(data => {
+      DB.getInst()[xDatabase.databaseName][table.name].add(data)
+        .then(count => {
+          let badge = document.createElement('span');
+          badge.classList.add('badge');
+          badge.classList.add('badge-secondary');
+          badge.classList.add('badge-pill');
+          badge.innerHTML = count;
+          document.querySelector("#" + table.name).appendChild(badge);
+        }).catch(console.error);
+    }).catch(console.error);
 
 }
 
 function clear() {
-  storeNames.forEach((store) => {
-    DB.getInst().jDB[store.name].clear()
-      .then(result => {
-        load(store);
-      }).catch(error);
+  xTableNames.forEach((table) => {
+    DB.getInst()[xDatabase.databaseName][table.name].clear()
+      .then(() => {
+        load(table);
+      }).catch(console.error);
   });
 }
 var query;
@@ -76,8 +81,8 @@ function run() {
   if (query.length === 0) {
     return;
   }
-  let inst = 'DB.getInst().jDB.';
-  window.eval(inst + query).then(output).catch(error);
+  let inst = `DB.getInst().${xDatabase.databaseName}.`;
+  window.eval(inst + query).then(output).catch(console.error);
 }
 
 output = values => {
@@ -129,27 +134,27 @@ table = values => {
   let tbody = document.querySelector('#table-output tbody');
   thead.innerHTML = "", tbody.innerHTML = "";
   //Thead
-  stores.forEach(store => {
-    if (store.name === query.split(".")[0]) {
+  tables.forEach(table => {
+    if (table.name === query.split(".")[0]) {
       let tr = document.createElement("tr");
 
       columns = query.match(/'.*?'|".*?"/g);
       if (columns === null) {
         let th = document.createElement("th");
-        th.innerHTML = store.keyPath;
+        th.innerHTML = table.keyPath;
         tr.appendChild(th);
-        store.indexes.forEach(index => {
+        table.columns.forEach(index => {
           let th = document.createElement("th");
           th.innerHTML = index.name;
           tr.appendChild(th);
         });
       } else {
-        if (columns.includes("\"" + store.keyPath + "\"") || columns.includes("'" + store.keyPath + "'")) {
+        if (columns.includes("\"" + table.keyPath + "\"") || columns.includes("'" + table.keyPath + "'")) {
           let th = document.createElement("th");
-          th.innerHTML = store.keyPath;
+          th.innerHTML = table.keyPath;
           tr.appendChild(th);
         }
-        store.indexes.forEach(index => {
+        table.columns.forEach(index => {
           if (columns.includes("\"" + index.name + "\"") || columns.includes("'" + index.name + "'")) {
             let th = document.createElement("th");
             th.innerHTML = index.name;

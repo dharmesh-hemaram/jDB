@@ -9,7 +9,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.DefinePlugin({ 'process.env': { 'NODE_ENV': JSON.stringify('production') } }),
-    new webpack.BannerPlugin(' jDB v' + packageJson.version + ' \n Author:' + packageJson.author + ' \n License:' + packageJson.license + " \n Homepage:" + packageJson.homepage)
+    new webpack.BannerPlugin(` ${packageJson.name.toUpperCase()} v-${packageJson.version} \n Author: ${packageJson.author} \n License: ${packageJson.license} \n Homepage: ${packageJson.homepage}`)
   ],
   mode: 'production'
 });

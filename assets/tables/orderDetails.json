@@ -2,7 +2,7 @@
     "name": "orderDetails",
     "keyPath": "orderDetailId",
     "autoIncrement": false,
-    "indexes": [
+    "columns": [
         {
             "name": "orderId",
             "nullable":false,

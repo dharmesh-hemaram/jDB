@@ -1,5 +1,5 @@
 {
-    "databaseName": "jDB",
+    "databaseName": "test",
     "version": 1,
-    "stores": []
+    "tables": []
 }

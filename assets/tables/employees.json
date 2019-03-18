@@ -2,13 +2,13 @@
     "name": "employees",
     "keyPath": "employeeId",
     "autoIncrement": false,
-    "indexes": [
+    "columns": [
         {
             "name": "lastName",
             "nullable":false
         },
         {
-            "name": "fastName",
+            "name": "firstName",
             "nullable":false
         },
         {

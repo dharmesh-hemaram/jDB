@@ -1,8 +1,8 @@
-xdescribe("<< [" + storeNames[1].name + "]", function () {
-    let store = storeNames[1];
+xdescribe("<< [" + tableNames[1].name + "]", function () {
+    let table = tableNames[1];
     describe('[clear]', function () {
-        it(">> DB.getInst()[dbName][store.name].clear()", function (done) {
-            DB.getInst()[dbName][store.name].clear()
+        it(">> DB.getInst()[dbName][table.name].clear()", function (done) {
+            DB.getInst()[dbName][table.name].clear()
                 .then(result => {
                     expect(result).toBeUndefined();
                     done();
@@ -13,13 +13,13 @@ xdescribe("<< [" + storeNames[1].name + "]", function () {
         });
     });
     describe('[add]', function () {
-        it(">> DB.getInst()[dbName][store.name].add(store.data)", function (done) {
-            fetch('base/assets/data/' + store.name + '.json').then(response => response.json()).then(data => {
-                store.data = data;
-                DB.getInst()[dbName][store.name].add(data)
+        it(">> DB.getInst()[dbName][table.name].add(table.data)", function (done) {
+            fetch('base/assets/data/' + table.name + '.json').then(response => response.json()).then(data => {
+                table.data = data;
+                DB.getInst()[dbName][table.name].add(data)
                     .then(count => {
                         expect(count).toBeDefined();
-                        expect(count).toBe(store.data.length);
+                        expect(count).toBe(table.data.length);
                         done();
                     }).catch((error) => {
                         fail(error);
@@ -35,7 +35,7 @@ xdescribe("<< [" + storeNames[1].name + "]", function () {
         it(">> DB.getInst()[dbName].customers.count()", function (done) {
             DB.getInst()[dbName].customers.count()
                 .then(result => {
-                    expect(result).toBe(store.data.length);
+                    expect(result).toBe(table.data.length);
                     expect(result).toBeDefined();
                     done();
                 }).catch((error) => {
@@ -49,13 +49,13 @@ xdescribe("<< [" + storeNames[1].name + "]", function () {
             DB.getInst()[dbName].customers.get()
                 .then(result => {
                     expect(result).toBeDefined();
-                    expect(result.count()).toEqual(store.data.length);
-                    expect(result.arr[0].customerId).toEqual(store.data[0].customerId);
-                    expect(result.arr[1].contactName).toEqual(store.data[1].contactName);
-                    expect(result.arr[2].country).toEqual(store.data[2].country);
-                    expect(result.arr[3].customerName).toEqual(store.data[3].customerName);
-                    expect(result.arr[4].pinCode).toEqual(store.data[4].pinCode);
-                    expect(result.arr[5].address).toEqual(store.data[5].address);
+                    expect(result.count()).toEqual(table.data.length);
+                    expect(result.arr[0].customerId).toEqual(table.data[0].customerId);
+                    expect(result.arr[1].contactName).toEqual(table.data[1].contactName);
+                    expect(result.arr[2].country).toEqual(table.data[2].country);
+                    expect(result.arr[3].customerName).toEqual(table.data[3].customerName);
+                    expect(result.arr[4].pinCode).toEqual(table.data[4].pinCode);
+                    expect(result.arr[5].address).toEqual(table.data[5].address);
                     done();
                 }).catch((error) => {
                     fail(error);
@@ -66,11 +66,11 @@ xdescribe("<< [" + storeNames[1].name + "]", function () {
             DB.getInst()[dbName].customers.get('customerName')
                 .then(result => {
                     expect(result).toBeDefined();
-                    expect(result.count()).toEqual(store.data.length);
-                    expect(result.arr[0]).toEqual(store.data[0].customerName);
-                    expect(result.arr[1]).toEqual(store.data[1].customerName);
-                    expect(result.arr[2]).toEqual(store.data[2].customerName);
-                    expect(result.arr[3]).toEqual(store.data[3].customerName);
+                    expect(result.count()).toEqual(table.data.length);
+                    expect(result.arr[0]).toEqual(table.data[0].customerName);
+                    expect(result.arr[1]).toEqual(table.data[1].customerName);
+                    expect(result.arr[2]).toEqual(table.data[2].customerName);
+                    expect(result.arr[3]).toEqual(table.data[3].customerName);
                     done();
                 }).catch((error) => {
                     fail(error);
@@ -81,16 +81,16 @@ xdescribe("<< [" + storeNames[1].name + "]", function () {
             DB.getInst()[dbName].customers.get(['customerName', 'city'])
                 .then(result => {
                     expect(result).toBeDefined();
-                    expect(result.count()).toEqual(store.data.length);
-                    expect(result.arr[0].customerName).toEqual(store.data[0].customerName);
-                    expect(result.arr[1].customerName).toEqual(store.data[1].customerName);
-                    expect(result.arr[2].customerName).toEqual(store.data[2].customerName);
-                    expect(result.arr[3].customerName).toEqual(store.data[3].customerName);
+                    expect(result.count()).toEqual(table.data.length);
+                    expect(result.arr[0].customerName).toEqual(table.data[0].customerName);
+                    expect(result.arr[1].customerName).toEqual(table.data[1].customerName);
+                    expect(result.arr[2].customerName).toEqual(table.data[2].customerName);
+                    expect(result.arr[3].customerName).toEqual(table.data[3].customerName);
 
-                    expect(result.arr[0].city).toEqual(store.data[0].city);
-                    expect(result.arr[1].city).toEqual(store.data[1].city);
-                    expect(result.arr[2].city).toEqual(store.data[2].city);
-                    expect(result.arr[3].city).toEqual(store.data[3].city);
+                    expect(result.arr[0].city).toEqual(table.data[0].city);
+                    expect(result.arr[1].city).toEqual(table.data[1].city);
+                    expect(result.arr[2].city).toEqual(table.data[2].city);
+                    expect(result.arr[3].city).toEqual(table.data[3].city);
                     done();
                 }).catch((error) => {
                     fail(error);
@@ -106,7 +106,7 @@ xdescribe("<< [" + storeNames[1].name + "]", function () {
                 .then(result => {
                     expect(result).toBeDefined();
                     expect(result.count()).toBeDefined();
-                    expect(result.count()).toBeLessThan(store.data.length);
+                    expect(result.count()).toBeLessThan(table.data.length);
                     done();
                 }).catch((error) => {
                     fail(error);

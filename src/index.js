@@ -1,3 +1,3 @@
-import DB from './jdb/db';
-import { DBEntity, StoreEntity, IndexEntity } from './jdb/entity';
-export default { DB, DBEntity, StoreEntity, IndexEntity };
+import DB from './db/db';
+import { DBEntity, TableEntity, ColumnEntity } from './db/entity';
+export default { DB, DBEntity, TableEntity, ColumnEntity };

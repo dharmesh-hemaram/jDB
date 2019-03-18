@@ -1,5 +1,5 @@
-let dbName = 'jDB';
-let storeNames = [{
+let dbName = 'test';
+let tableNames = [{
     "name": "categories"
 }, {
     "name": "customers"
@@ -16,13 +16,13 @@ let storeNames = [{
 }, {
     "name": "suppliers"
 }];
-let stores = [];
+let tables = [];
 describe("<< [DBConfig]", function () {
-    it("[load Stores] >>", function (done) {
-        storeNames.forEach((store) => {
-            fetch('base/assets/stores/' + store.name + '.json').then(response => response.json()).then(data => {
-                stores.push(data);
-                if (storeNames.length == stores.length) {
+    it("[load tables] >>", function (done) {
+        tableNames.forEach((table) => {
+            fetch('base/assets/tables/' + table.name + '.json').then(response => response.json()).then(data => {
+                tables.push(data);
+                if (tableNames.length == tables.length) {
                     done();
                 }
             }).catch(error => {
@@ -34,7 +34,7 @@ describe("<< [DBConfig]", function () {
     describe('setup', function () {
         it("[setup] >>", function (done) {
             fetch('base/assets/db.json').then(response => response.json()).then(database => {
-                database.stores = stores;
+                database.tables = tables;
                 DB.setup(database).then(_ => {
                     expect(_.error).not.toBeDefined();
                     done();

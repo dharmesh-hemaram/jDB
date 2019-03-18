@@ -17,7 +17,7 @@ export default class Collection extends Array {
     if (this.distinct && this.indexOf(value) !== -1) {
       return;
     }
-    this.push(value)
+    this.push(value);
   }
 
   count() {

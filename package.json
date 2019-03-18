@@ -1,20 +1,21 @@
 {
-  "name": "@dharmesh-hemaram/jdb",
+  "name": "db",
   "version": "1.0.2",
   "description": "indexeddb API",
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --open --config webpack.dev.js",
+    "server": "node server.js",
     "watch": "webpack --watch webpack.prod.js",
     "test": "karma start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dharmesh-hemaram/jDB.git"
+    "url": "git+https://github.com/dharmesh-hemaram/DB.git"
   },
   "keywords": [
-    "jDB",
+    "DB",
     "indexeddb",
     "indexeddb api",
     "indexeddb components",
@@ -27,9 +28,9 @@
   "author": "Dharmesh",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dharmesh-hemaram/jDB/issues"
+    "url": "https://github.com/dharmesh-hemaram/DB/issues"
   },
-  "homepage": "https://dharmesh-hemaram.github.io/jDB/",
+  "homepage": "https://dharmesh-hemaram.github.io/DB/",
   "devDependencies": {
     "bootstrap": "^4.3.1",
     "clean-webpack-plugin": "^1.0.1",
