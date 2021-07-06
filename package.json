@@ -1,5 +1,5 @@
 {
-  "name": "db",
+  "name": "jdb",
   "version": "1.0.3",
   "description": "indexeddb API",
   "scripts": {
