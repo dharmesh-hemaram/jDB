@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dharmesh-hemaram/DB.git"
+    "url": "git+https://github.com/dharmesh-hemaram/jDB.git"
   },
   "keywords": [
     "DB",
@@ -30,7 +30,10 @@
   "bugs": {
     "url": "https://github.com/dharmesh-hemaram/DB/issues"
   },
-  "homepage": "https://dharmesh-hemaram.github.io/DB/",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "homepage": "https://dharmesh-hemaram.github.io/jDB/",
   "devDependencies": {
     "html-webpack-plugin": "^3.2.0",
     "jasmine": "^3.8.0",
@@ -41,5 +44,9 @@
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0"
+  },
+  "main": "dist/db.min.js",
+  "directories": {
+    "dist": "dist"
   }
 }
