@@ -18,6 +18,7 @@ let tableNames = [{
 }];
 let tables = [];
 describe("<< [DBConfig]", function () {
+    console.log("DB CONFIG")
     it("[load tables] >>", function (done) {
         tableNames.forEach((table) => {
             fetch('base/assets/tables/' + table.name + '.json').then(response => response.json()).then(data => {

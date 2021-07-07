@@ -3,7 +3,7 @@ let xTables = [];
 let xDatabase;
 function onload() {
   xTableNames.forEach((table) => {
-    fetch('./tables/' + table.name + '.json')
+    fetch('../assets/tables/' + table.name + '.json')
       .then(r => r.json())
       .then(data => {
         xTables.push(data);
@@ -23,7 +23,7 @@ function checkParam() {
 }
 
 function setup() {
-  fetch('./db.json').then(r => r.json()).then(database => {
+  fetch('../assets/db.json').then(r => r.json()).then(database => {
     database.tables = xTables;
     xDatabase = database
     DB.setup(database).then(_ => {
@@ -51,7 +51,7 @@ function legend() {
 }
 
 function load(table) {
-  fetch('./data/' + table.name + '.json')
+  fetch('../assets/data/' + table.name + '.json')
     .then(r => r.json())
     .then(data => {
       DB.getInst()[xDatabase.databaseName][table.name].add(data)

@@ -21,7 +21,7 @@ module.exports = function (config) {
       { pattern: 'assets/**/*.json', watched: false, included: false, served: true, nocache: false },
       { pattern: 'dist/**/*.js', watched: false },
       { pattern: 'test/jasmine/config.test.js', watched: true },
-      { pattern: 'test/jasmine/store/products.test.js', watched: true }
+      { pattern: 'test/jasmine/store/*.test.js', watched: true }
     ],
 
 

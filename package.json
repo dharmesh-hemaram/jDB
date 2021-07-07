@@ -1,9 +1,9 @@
 {
   "name": "jdb",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "indexeddb API",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --mode=production --config webpack.config.js",
     "start": "webpack --mode=development --config webpack.config.js",
     "serve": "webpack serve --config webpack.config.js",
     "server": "node server.js",

@@ -1,4 +1,4 @@
-xdescribe(tableNames[2].name, function () {
+describe(tableNames[2].name, function () {
     let table = tableNames[2];
     it("DB.getInst()[dbName][table.name].clear()", function (done) {
         DB.getInst()[dbName][table.name].clear()

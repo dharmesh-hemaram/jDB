@@ -40,7 +40,6 @@ module.exports = (env, argv) => {
         }
       ]
     }
-    config.plugins.push(new HtmlWebpackPlugin({ title: 'Development' }))
   }
 
   if (argv.mode === 'production') {
