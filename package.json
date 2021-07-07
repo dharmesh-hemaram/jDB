@@ -1,6 +1,6 @@
 {
   "name": "@dharmesh-hemaram/jdb",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "indexeddb API",
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.js",
@@ -29,9 +29,6 @@
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/dharmesh-hemaram/DB/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "homepage": "https://dharmesh-hemaram.github.io/jDB/",
   "devDependencies": {
