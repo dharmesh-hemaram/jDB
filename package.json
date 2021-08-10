@@ -1,6 +1,6 @@
 {
   "name": "@dharmesh-hemaram/jdb",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "indexeddb API",
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.js",
@@ -8,6 +8,7 @@
     "serve": "webpack serve --config webpack.config.js",
     "server": "node server.js",
     "watch": "webpack --watch webpack.prod.js",
+    "prepare": "npm run build",
     "test": "karma start"
   },
   "repository": {
