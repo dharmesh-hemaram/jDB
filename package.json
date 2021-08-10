@@ -1,6 +1,6 @@
 {
   "name": "@dharmesh-hemaram/jdb",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "indexeddb API",
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.js",

@@ -7,24 +7,24 @@ const FILTER_TYPE = {
   LESSER_THAN: 'lesserThan',
   LESSER_THAN_OR_EQUAL: 'lesserThanOrEqual',
   BETWEEN: 'between'
-};
+}
 
-const FILTER_SPLITTER = '~';
+const FILTER_SPLITTER = '~'
 
 class Filter {
   /**
-   * 
-   * @param {String} type 
-   * @param {String} value 
-   * @param {String} index 
+   *
+   * @param {String} type
+   * @param {String} value
+   * @param {String} index
    */
   constructor(type, value, xEntity) {
-    this.type = type;
-    this.value = value;
+    this.type = type
+    this.value = value
     if (xEntity) {
-      this.index = xEntity.name;
+      this.index = xEntity.name
     }
   }
 }
 
-export { Filter, FILTER_SPLITTER, FILTER_TYPE };
+export { Filter, FILTER_SPLITTER, FILTER_TYPE }
